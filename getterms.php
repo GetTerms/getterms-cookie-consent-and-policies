@@ -71,8 +71,8 @@ function getterms_settings_link($links)
 $plugin = plugin_basename(__FILE__);
 add_filter("plugin_action_links_$plugin", 'getterms_settings_link');
 
-add_action('wp_ajax_clear_getterms_options', 'clear_getterms_options');
-function clear_getterms_options()
+add_action('wp_ajax_clear_getterms_options', 'getterms_clear_options');
+function getterms_clear_options()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
 
@@ -93,8 +93,8 @@ function clear_getterms_options()
 	wp_send_json_success('Options cleared successfully.');
 }
 
-add_action('wp_ajax_set_getterms_options', 'set_getterms_options');
-function set_getterms_options()
+add_action('wp_ajax_set_getterms_options', 'getterms_set_options');
+function getterms_set_options()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
 
@@ -121,8 +121,8 @@ function set_getterms_options()
 	wp_die();
 }
 
-add_action('wp_ajax_get_getterms_options', 'get_getterms_options');
-function get_getterms_options()
+add_action('wp_ajax_get_getterms_options', 'getterms_get_options');
+function getterms_get_options()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
 
@@ -149,8 +149,8 @@ function get_getterms_options()
 	wp_die();
 }
 
-add_action('wp_ajax_update_getterms_auto_widget', 'update_getterms_auto_widget');
-function update_getterms_auto_widget()
+add_action('wp_ajax_update_getterms_auto_widget', 'getterms_update_auto_widget');
+function getterms_update_auto_widget()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
 
@@ -169,8 +169,8 @@ function update_getterms_auto_widget()
 	wp_send_json_success();
 }
 
-add_action('wp_ajax_update_getterms_manual_widget', 'update_getterms_manual_widget');
-function update_getterms_manual_widget()
+add_action('wp_ajax_update_getterms_manual_widget', 'getterms_update_manual_widget');
+function getterms_update_manual_widget()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
 
@@ -334,9 +334,9 @@ function getterms_admin_scripts()
 	);
 }
 
-add_action('wp_ajax_set_widget_lang', 'set_widget_lang');
+add_action('wp_ajax_set_widget_lang', 'getterms_set_widget_lang');
 
-function set_widget_lang()
+function getterms_set_widget_lang()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
 
@@ -358,7 +358,7 @@ function set_widget_lang()
 /*
  * Custom Menu option for Consent Widget
  */
-function my_custom_menu_item($item_id, $item, $depth, $args)
+function getterms_custom_menu_item($item_id, $item, $depth, $args)
 {
 	?>
     <div class="field-custom description-wide">
@@ -375,9 +375,9 @@ function my_custom_menu_item($item_id, $item, $depth, $args)
 	<?php
 }
 
-add_action('wp_nav_menu_item_custom_fields', 'my_custom_menu_item', 10, 4);
+add_action('wp_nav_menu_item_custom_fields', 'getterms_custom_menu_item', 10, 4);
 
-function my_save_custom_menu_item($menu_id, $menu_item_db_id)
+function getterms_save_custom_menu_item($menu_id, $menu_item_db_id)
 {
 	if (!isset($_POST['update-nav-menu-nonce']) ||
 		!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['update-nav-menu-nonce'])), 'update-nav_menu')) {
@@ -396,9 +396,9 @@ function my_save_custom_menu_item($menu_id, $menu_item_db_id)
 	}
 }
 
-add_action('wp_update_nav_menu_item', 'my_save_custom_menu_item', 10, 2);
+add_action('wp_update_nav_menu_item', 'getterms_save_custom_menu_item', 10, 2);
 
-function my_custom_menu_item_output($items, $args)
+function getterms_custom_menu_item_output($items, $args)
 {
 	foreach ($items as &$item) {
 		$custom_value = get_post_meta($item->ID, '_menu_item_custom', true);
@@ -409,7 +409,7 @@ function my_custom_menu_item_output($items, $args)
 	return $items;
 }
 
-add_filter('wp_nav_menu_objects', 'my_custom_menu_item_output', 10, 2);
+add_filter('wp_nav_menu_objects', 'getterms_custom_menu_item_output', 10, 2);
 
 function getterms_install_wp_consent_api()
 {
