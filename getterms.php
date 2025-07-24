@@ -165,50 +165,46 @@ function update_getterms_manual_widget()
 	wp_send_json_success();
 }
 
-add_action('template_redirect', function () {
-	ob_start(function ($buffer) {
-		$widget_slug = get_option('getterms-widget-slug');
-		$google_consent = get_option('getterms-google-consent');
-		$widget_lang = get_option('getterms-widget-language');
-		$show_auto = get_option('getterms-auto-widget');
-		$show_manual = get_option('getterms-manual-widget');
+add_action('wp_head', 'getterms_add_consent_scripts', 1);
+function getterms_add_consent_scripts() {
+	$widget_slug = get_option('getterms-widget-slug');
+	$google_consent = get_option('getterms-google-consent');
+	$widget_lang = get_option('getterms-widget-language');
+	$show_auto = get_option('getterms-auto-widget');
+	$show_manual = get_option('getterms-manual-widget');
 
-		$script_block = '';
+	if (!empty($google_consent && $google_consent === 'on')) {
+		$google_consent_script = '
+			window.dataLayer = window.dataLayer || [];
+			function gtag() { dataLayer.push(arguments); }
+			gtag("consent", "default", {
+				"ad_storage": "denied",
+				"ad_user_data": "denied",
+				"ad_personalization": "denied",
+				"analytics_storage": "denied",
+				"functionality_storage": "denied",
+				"personalization_storage": "denied",
+				"security_storage": "denied"
+			});
+		';
+		// Register a dummy script handle for the inline script
+		wp_register_script('getterms-google-consent', false, array(), GETTERMS_PLUGIN_VERSION, false);
+		wp_enqueue_script('getterms-google-consent');
+		wp_add_inline_script('getterms-google-consent', $google_consent_script);
+	}
 
-		if (!empty($google_consent && $google_consent === 'on')) {
-			$script_block .= '<script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag() { dataLayer.push(arguments); }
-                gtag("consent", "default", {
-                    "ad_storage": "denied",
-                    "ad_user_data": "denied",
-                    "ad_personalization": "denied",
-                    "analytics_storage": "denied",
-                    "functionality_storage": "denied",
-                    "personalization_storage": "denied",
-                    "security_storage": "denied"
-                });
-            </script>';
+	if (!empty($widget_slug)) {
+		if (!empty($widget_lang) && $show_manual === 'true') {
+			$src = 'https://app.getterms.io/cookie-consent/embed/' . esc_attr($widget_slug) . '/' . $widget_lang;
+		} elseif ($show_auto === 'true') {
+			$src = 'https://app.getterms.io/cookie-consent/embed/' . esc_attr($widget_slug);
 		}
 
-		if (!empty($widget_slug)) {
-			if (!empty($widget_lang) && $show_manual === 'true') {
-				$src = 'https://app.getterms.io/cookie-consent/embed/' . esc_attr($widget_slug) . '/' . $widget_lang;
-			} elseif ($show_auto === 'true') {
-				$src = 'https://app.getterms.io/cookie-consent/embed/' . esc_attr($widget_slug);
-			}
-
-			if (!empty($src)) {
-				// Must output early in head for correct blocking operation order, cannot be queued
-				// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
-				$script_block .= '<script src="' . esc_url($src) . '" type="text/javascript"></script>';
-			}
+		if (!empty($src)) {
+			wp_enqueue_script('getterms-widget', $src, array(), GETTERMS_PLUGIN_VERSION, false);
 		}
-
-		// Inject just after the opening <head> tag to ensure it runs before any other scripts in order to block cookies
-		return preg_replace('/<head(.*?)>/', '<head$1>' . $script_block, $buffer, 1);
-	});
-});
+	}
+}
 
 $languages = get_option('getterms-languages');
 if (is_string($languages)) {
@@ -245,14 +241,10 @@ function getterms_generate_shortcodes()
 
 					$lang_key = str_replace('_', '-', $lang_key);
 
-					$output = '<div class="getterms-document-embed" data-getterms="' . esc_attr($token) . '" data-getterms-document="' . esc_attr($transformedPolicy) . '" data-getterms-lang="' . esc_attr($lang_key) . '" data-getterms-mode="direct" data-getterms-env="https://app.getterms.io"></div>' .
-						'<script type="text/javascript">(function(d, s, id) {' .
-						'    var js, ref = d.getElementsByTagName(s)[0];' .
-						'    if (d.getElementById(id)) return;' .
-						'    js = d.createElement(s); js.id = id;' .
-						'    js.src = "https://app.getterms.io/dist/js/embed.js";' .
-						'    ref.parentNode.insertBefore(js, ref);' .
-						'})(document, "script", "getterms-embed-js");</script>';
+					// Enqueue the embed script when shortcode is used
+					wp_enqueue_script('getterms-embed-js', 'https://app.getterms.io/dist/js/embed.js', array(), GETTERMS_PLUGIN_VERSION, true);
+
+					$output = '<div class="getterms-document-embed" data-getterms="' . esc_attr($token) . '" data-getterms-document="' . esc_attr($transformedPolicy) . '" data-getterms-lang="' . esc_attr($lang_key) . '" data-getterms-mode="direct" data-getterms-env="https://app.getterms.io"></div>';
 					return $output;
 				});
 			}

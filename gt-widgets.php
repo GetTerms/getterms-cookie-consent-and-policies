@@ -13,20 +13,20 @@ $widget_language = get_option('getterms-widget-language');
  * It's properly escaped when displayed using esc_html().
  */
 function getterms_get_google_consent_template() {
-	return '<!-- 1. Initialise Google Consent Mode -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag("consent", "default", {
-    "ad_storage": "denied",
-    "ad_user_data": "denied",
-    "ad_personalization": "denied",
-    "analytics_storage": "denied",
-    "functionality_storage": "denied",
-    "personalization_storage": "denied",
-    "security_storage": "denied",
-  });
-</script>';
+	return '<!-- 1. Initialise Google Consent Mode -->' . "\n" .
+		'&lt;script&gt;' . "\n" .
+		'  window.dataLayer = window.dataLayer || [];' . "\n" .
+		'  function gtag() { dataLayer.push(arguments); }' . "\n" .
+		'  gtag("consent", "default", {' . "\n" .
+		'    "ad_storage": "denied",' . "\n" .
+		'    "ad_user_data": "denied",' . "\n" .
+		'    "ad_personalization": "denied",' . "\n" .
+		'    "analytics_storage": "denied",' . "\n" .
+		'    "functionality_storage": "denied",' . "\n" .
+		'    "personalization_storage": "denied",' . "\n" .
+		'    "security_storage": "denied"' . "\n" .
+		'  });' . "\n" .
+		'&lt;/script&gt;';
 }
 
 $googleConsentCode = getterms_get_google_consent_template();
@@ -50,7 +50,7 @@ foreach ($languages as $lang_key => $lang_name) {
 	// Create display-only code snippet template for users to copy.
 	// This HTML/JavaScript is not executed by WordPress - it's shown as escaped text.
 	$code = ($google_consent === 'on' ? $googleConsentCode . "\n" : '') .
-		'<script type="text/javascript" src="https://app.getterms.io/cookie-consent/embed/' . $widget_slug . '/' . $lang_key . '"></script>';
+		'&lt;script type="text/javascript" src="https://app.getterms.io/cookie-consent/embed/' . $widget_slug . '/' . $lang_key . '"&gt;&lt;/script&gt;';
 
 	$checked = ($lang_key === $widget_language) ? 'checked' : '';
 
