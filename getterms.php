@@ -6,6 +6,7 @@ Version: 0.8
 Author: General Labs.
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Requires Plugins: wp-consent-api
 */
 
 define('GETTERMS_PLUGIN_VERSION', '0.8');
@@ -399,8 +400,6 @@ function getterms_install_wp_consent_api()
 
 		$upgrader = new Plugin_Upgrader(new Automatic_Upgrader_Skin());
 		$upgrader->install($api->download_link);
-
-		activate_plugin($plugin_slug . '/' . $plugin_slug . '.php');
 	}
 }
 

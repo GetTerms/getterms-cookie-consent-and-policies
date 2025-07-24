@@ -12,7 +12,6 @@ if ( isset( $_POST['gt_install_consent_api'] )
     if ( ! is_wp_error( $api ) ) {
         $upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
         $upgrader->install( $api->download_link );
-        activate_plugin( 'wp-consent-api/wp-consent-api.php' );
         wp_safe_redirect( admin_url( 'options-general.php?page=getterms' ) );
         exit;
     }
