@@ -7,10 +7,13 @@ $widget_slug = $widget_slug ?? null;
 $google_consent = get_option('getterms-google-consent');
 $widget_language = get_option('getterms-widget-language');
 
-// This script is being displayed, not run. Disabling the phpcs rule that requires enqueued scripts to be registered/enqueued.
-// phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript
-$googleConsentCode = '
-<!-- 1. Initialise Google Consent Mode -->
+/**
+ * Google Consent Mode initialization template for display purposes only.
+ * This code is shown as a text example to users and is not executed by WordPress.
+ * It's properly escaped when displayed using esc_html().
+ */
+function getterms_get_google_consent_template() {
+	return '<!-- 1. Initialise Google Consent Mode -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
@@ -24,7 +27,9 @@ $googleConsentCode = '
     "security_storage": "denied",
   });
 </script>';
-// phpcs:enable WordPress.WP.EnqueuedResources.NonEnqueuedScript
+}
+
+$googleConsentCode = getterms_get_google_consent_template();
 
 echo '<h3>Manual Installation.</h3>';
 echo '<p>To install manually, copy the entire code snippet for your selected language into the &lt;head&gt; section of your page.</p>';
@@ -42,11 +47,10 @@ echo '</thead>';
 echo '<tbody>';
 
 foreach ($languages as $lang_key => $lang_name) {
-	// This script is being displayed, not run. Disabling the phpcs rule that requires enqueued scripts to be registered/enqueued.
-// phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript
+	// Create display-only code snippet template for users to copy.
+	// This HTML/JavaScript is not executed by WordPress - it's shown as escaped text.
 	$code = ($google_consent === 'on' ? $googleConsentCode . "\n" : '') .
 		'<script type="text/javascript" src="https://app.getterms.io/cookie-consent/embed/' . $widget_slug . '/' . $lang_key . '"></script>';
-// phpcs:enable WordPress.WP.EnqueuedResources.NonEnqueuedScript
 
 	$checked = ($lang_key === $widget_language) ? 'checked' : '';
 
