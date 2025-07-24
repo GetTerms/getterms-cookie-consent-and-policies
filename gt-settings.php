@@ -21,7 +21,6 @@ if ( isset( $_POST['gt_install_consent_api'] )
 }
 
 $token = esc_attr(get_option('getterms-token'));
-$google_consent = esc_attr(get_option('getterms-google-consent'));
 $widget_slug = esc_attr(get_option('getterms-widget-slug'));
 
 $auto_widget = esc_attr(get_option('getterms-auto-widget'));

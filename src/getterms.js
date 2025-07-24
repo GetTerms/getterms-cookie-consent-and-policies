@@ -77,7 +77,6 @@ jQuery(document).ready(function ($) {
                                 nonce: getTermsAjax.nonce,
                                 options_data: {
                                     'getterms-token': fetchResponse.token,
-                                    'getterms-google-consent': fetchResponse.google_consent,
                                     'getterms-widget-slug': fetchResponse.widget_slug,
                                     'getterms-languages': fetchResponse.available_languages,
                                     'getterms-policies': fetchResponse.available_policies,

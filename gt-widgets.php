@@ -5,32 +5,7 @@ $languages = $languages ?? [];
 $policies = $policies ?? [];
 $default_language = $default_language ?? 'en-us';
 $widget_slug = $widget_slug ?? null;
-$google_consent = get_option('getterms-google-consent');
 $widget_language = get_option('getterms-widget-language');
-
-/**
- * Google Consent Mode initialization template for display purposes only.
- * This code is shown as a text example to users and is not executed by WordPress.
- * It's properly escaped when displayed using esc_html().
- */
-function getterms_get_google_consent_template() {
-	return '<!-- 1. Initialise Google Consent Mode -->' . "\n" .
-		'&lt;script&gt;' . "\n" .
-		'  window.dataLayer = window.dataLayer || [];' . "\n" .
-		'  function gtag() { dataLayer.push(arguments); }' . "\n" .
-		'  gtag("consent", "default", {' . "\n" .
-		'    "ad_storage": "denied",' . "\n" .
-		'    "ad_user_data": "denied",' . "\n" .
-		'    "ad_personalization": "denied",' . "\n" .
-		'    "analytics_storage": "denied",' . "\n" .
-		'    "functionality_storage": "denied",' . "\n" .
-		'    "personalization_storage": "denied",' . "\n" .
-		'    "security_storage": "denied"' . "\n" .
-		'  });' . "\n" .
-		'&lt;/script&gt;';
-}
-
-$googleConsentCode = getterms_get_google_consent_template();
 
 echo '<h3>' . esc_html__('Manual Installation.', 'getterms-cookie-consent-and-policies') . '</h3>';
 echo '<p>' . esc_html__('To install manually, copy the entire code snippet for your selected language into the &lt;head&gt; section of your page.', 'getterms-cookie-consent-and-policies') . '</p>';
@@ -50,8 +25,7 @@ echo '<tbody>';
 foreach ($languages as $lang_key => $lang_name) {
 	// Create display-only code snippet template for users to copy.
 	// This HTML/JavaScript is not executed by WordPress - it's shown as escaped text.
-	$code = ($google_consent === 'on' ? $googleConsentCode . "\n" : '') .
-		'&lt;script type="text/javascript" src="https://app.getterms.io/cookie-consent/embed/' . $widget_slug . '/' . $lang_key . '"&gt;&lt;/script&gt;';
+	$code = '&lt;script type="text/javascript" src="https://app.getterms.io/cookie-consent/embed/' . $widget_slug . '/' . $lang_key . '"&gt;&lt;/script&gt;';
 
 	$checked = ($lang_key === $widget_language) ? 'checked' : '';
 
@@ -59,8 +33,8 @@ foreach ($languages as $lang_key => $lang_name) {
 	echo '<td>' . esc_html($lang_name) . '</td>';
 	echo '<td>
         <div class="code-container">
-            <code id="code-inner-widget-embed-' . esc_attr($lang_key) . '" class="code-snippet" style="display:none">' . esc_html($code) . '</code>
             <button type="button" class="show-code-btn" data-lang-key="' . esc_attr($lang_key) . '">' . esc_html__('Show Code', 'getterms-cookie-consent-and-policies') . '</button>
+            <code id="code-inner-widget-embed-' . esc_attr($lang_key) . '" class="code-snippet" style="display:none">' . esc_html($code) . '</code>
         </div>
     </td>';
 	echo '<td>

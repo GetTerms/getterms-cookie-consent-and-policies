@@ -194,30 +194,9 @@ add_action('wp_enqueue_scripts', 'getterms_add_consent_scripts', 1);
 function getterms_add_consent_scripts() {
 
 	$widget_slug = get_option('getterms-widget-slug');
-	$google_consent = get_option('getterms-google-consent');
 	$widget_lang = get_option('getterms-widget-language');
 	$show_auto = get_option('getterms-auto-widget');
 	$show_manual = get_option('getterms-manual-widget');
-
-	if (!empty($google_consent) && $google_consent === 'on') {
-		$google_consent_script = '
-			window.dataLayer = window.dataLayer || [];
-			function gtag() { dataLayer.push(arguments); }
-			gtag("consent", "default", {
-				"ad_storage": "denied",
-				"ad_user_data": "denied",
-				"ad_personalization": "denied",
-				"analytics_storage": "denied",
-				"functionality_storage": "denied",
-				"personalization_storage": "denied",
-				"security_storage": "denied"
-			});
-		';
-		// Register a dummy script handle for the inline script
-		wp_register_script('getterms-google-consent', false, array(), GETTERMS_PLUGIN_VERSION, false);
-		wp_enqueue_script('getterms-google-consent');
-		wp_add_inline_script('getterms-google-consent', $google_consent_script);
-	}
 
 	if (!empty($widget_slug)) {
 		if (!empty($widget_lang) && $show_manual === 'true') {
