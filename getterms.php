@@ -8,6 +8,7 @@ Version: 0.8
 Author: General Labs.
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: getterms-cookie-consent-and-policies
 Requires Plugins: wp-consent-api
 */
 
@@ -356,7 +357,7 @@ function getgetterms_custom_menu_item($item_id, $item, $depth, $args)
 	?>
     <div class="field-custom description-wide">
         <label for="edit-menu-item-custom-<?php echo esc_attr($item_id); ?>">
-			<?php esc_html_e('Custom Menu Item Field', 'getterms-cookie-consent-and-policies'); ?><br/>
+ 		<?php esc_html_e('Custom Menu Item Field', 'getterms-cookie-consent-and-policies'); ?><br/>
             <input type="text"
                    id="edit-menu-item-custom-<?php echo esc_attr($item_id); ?>"
                    class="widefat edit-menu-item-custom"

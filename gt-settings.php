@@ -61,7 +61,7 @@ switch ($default_language) {
 
 ?>
 <div class="wrap">
-    <h1><?php _e('GetTerms Settings', 'getterms-cookie-consent-and-policies'); ?></h1>
+    <h1><?php esc_html_e('GetTerms Settings', 'getterms-cookie-consent-and-policies'); ?></h1>
     <?php
     // --- WP Consent API dependency notice / installer ---
     // Load plugin.php only when needed in admin context
@@ -72,7 +72,9 @@ switch ($default_language) {
         ?>
         <div class="notice notice-warning is-dismissible">
             <p>
-                <strong><?php _e('GetTerms notice:', 'getterms-cookie-consent-and-policies'); ?></strong> <?php printf(__('The %s plugin is required for full compatibility with Google Consent Mode.', 'getterms-cookie-consent-and-policies'), '<a href="https://wordpress.org/plugins/wp-consent-api/" target="_blank">WP Consent API</a>'); ?>
+                <strong><?php esc_html_e('GetTerms notice:', 'getterms-cookie-consent-and-policies'); ?></strong> <?php
+                /* translators: %s: Plugin name with link to WordPress.org plugin page */
+                printf(esc_html__('The %s plugin is required for full compatibility with Google Consent Mode.', 'getterms-cookie-consent-and-policies'), '<a href="https://wordpress.org/plugins/wp-consent-api/" target="_blank">WP Consent API</a>'); ?>
             </p>
             <form method="post" style="display:inline">
                 <?php
@@ -80,7 +82,7 @@ switch ($default_language) {
                 ?>
                 <input type="hidden" name="gt_install_consent_api" value="1">
                 <input type="submit" class="button button-primary"
-                       value="Install & Activate WP Consent API">
+                       value="Install & Activate WP Consent API">
             </form>
         </div>
     <?php endif; ?>
@@ -89,7 +91,7 @@ switch ($default_language) {
 		<?php do_settings_sections('getterms-settings'); ?>
         <div class="form-row" id="getterms-token-input">
             <div class="form-label">
-                <label for="getterms_token"><?php _e('GetTerms Token:', 'getterms-cookie-consent-and-policies'); ?></label>
+                <label for="getterms_token"><?php esc_html_e('GetTerms Token:', 'getterms-cookie-consent-and-policies'); ?></label>
                 <input type="text" id="getterms_token" name="getterms_token" value="<?php echo esc_attr($token); ?>" />
             </div>
             <div class="button-container">
@@ -110,14 +112,14 @@ switch ($default_language) {
 		if (!empty($languages) && !empty($policies)) {
 			include('gt-policies.php');
 		} else {
-			echo '<p>' . __('No policies have been set up yet.', 'getterms-cookie-consent-and-policies') . '</p>';
+			echo '<p>' . esc_html__('No policies have been set up yet.', 'getterms-cookie-consent-and-policies') . '</p>';
 		}
 		?>
 		<?php if (!empty($widget_slug)) : ?>
             <hr style='margin-top:1rem'>
             <div id="getterms-widget-content">
                 <div style="padding-bottom: 10px;">
-                    <h2><?php _e('Cookie Consent Widget Management', 'getterms-cookie-consent-and-policies'); ?></h2>
+                    <h2><?php esc_html_e('Cookie Consent Widget Management', 'getterms-cookie-consent-and-policies'); ?></h2>
                     <div class="toggle-group">
                         <label class="switch">
                             <input type="checkbox"
@@ -126,7 +128,9 @@ switch ($default_language) {
                             <span class="slider round"></span>
                         </label>
                         <p>
-                            <?php printf(__('Automatically Embed in %s', 'getterms-cookie-consent-and-policies'), esc_html($default_language_name)); ?>
+                            <?php 
+                            /* translators: %s: Default language name (e.g., English (US), Spanish, etc.) */
+                            printf(esc_html__('Automatically Embed in %s', 'getterms-cookie-consent-and-policies'), esc_html($default_language_name)); ?>
                         </p>
                     </div>
                     <div class="toggle-group">
@@ -137,7 +141,7 @@ switch ($default_language) {
                             <span class="slider round"></span>
                         </label>
                         <p>
-                            <?php _e('Embed Widget Manually (Supports multilingual options)', 'getterms-cookie-consent-and-policies'); ?>
+                            <?php esc_html_e('Embed Widget Manually (Supports multilingual options)', 'getterms-cookie-consent-and-policies'); ?>
                         </p>
                     </div>
                 </div>
@@ -149,7 +153,7 @@ switch ($default_language) {
                     <a id="getterms-cookie-link"
                        target="_blank"
                        href="https://app.getterms.io/cookie-consent/<?php echo esc_url_raw($widget_slug); ?>">
-                        <?php _e('Update your Cookie Consent Widget style, layout, language, and content', 'getterms-cookie-consent-and-policies'); ?>
+                        <?php esc_html_e('Update your Cookie Consent Widget style, layout, language, and content', 'getterms-cookie-consent-and-policies'); ?>
                     </a>
                 </div>
             </div>
