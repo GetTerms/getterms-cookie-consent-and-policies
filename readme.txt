@@ -12,111 +12,108 @@ The GetTerms plugin allows users to manage their GetTerms compliance packs, embe
 
 == Description ==
 
-The GetTerms plugin allows users to manage their GetTerms compliance packs, embed auto-updating policies, and display their Cookie Consent Widget.
+The GetTerms plugin helps you implement cookie consent management and embed legal policies directly into your WordPress site. It connects with your GetTerms account to provide compliant, auto-updating documents and a fully configurable cookie consent banner.
 
 == Features ==
 
-- Easy installation and management of GetTerms compliance pack.
-- Embed Cookie Consent Widget with a domain-specific token.
-- Shortcodes for embedding automatically updating website policies.
-- Supports multiple languages for policy documents and cookie consent widget.
+- Connect to your GetTerms Compliance Pack using a unique token.
+- Embed the Cookie Consent Widget site-wide or via manual integration.
+- Shortcodes to display live-updated legal documents (Privacy Policy, Terms, AUP, etc.).
+- Support for multiple languages for both widget and policies.
 
 == Installation ==
 
-1. Go to the WordPress admin dashboard.
+1. Go to your WordPress admin dashboard.
 2. Navigate to `Plugins > Add New`.
-3. Search for `GetTerms Cookie Consent and Policies Plugin`.
-4. Click `Install Now` and then `Activate` the plugin.
+3. Search for `GetTerms Cookie Consent and Policies`.
+4. Click `Install Now` and then `Activate`.
 
 == Usage ==
 
 === Setting Up ===
-
-1. Navigate to `GetTerms` in the WordPress admin dashboard, or access `GetTerms` settings from the `Plugins` menu.
-2. Enter your GetTerms token in the provided field and save the settings.
+1. Navigate to `GetTerms` in the WordPress admin menu.
+2. Enter your GetTerms token and save your settings.
 
 === Embedding the Cookie Consent Widget ===
-
-You can choose to automatically embed the Cookie Consent Widget on your website by enabling the option in the settings. This will embed the widget in your selected default language.
-
-You can optionally choose to embed the widget in other available languages automatically, or manually via script that the plugin provides, giving you greater control over the widget's appearance and behavior.
-
-The widget will be displayed on all pages of your website automatically, or on any pages or templates where manually embedded in the head.
-
-For best results and to ensure auto-blocking features when manually installing, ensure the widget is the first script embedded in the head of your website.
+- Enable the auto-embed option in plugin settings to insert the consent widget in the `<head>` tag.
+- You can also embed manually with the provided script tag for advanced use cases or multilingual configurations.
+- To ensure proper consent enforcement, embed the script as early as possible in the head section.
 
 === Using Shortcodes ===
+Use the following shortcodes to display your policy documents:
 
-The plugin provides shortcodes to embed the policy documents you have enabled in your GetTerms account for this Compliance Pack. Examples of shortcodes are as follows:
-
-- `[getterms_privacy_en]` - Embed the Privacy Policy in English.
-- `[getterms_terms_en]` - Embed the Terms of Service in English.
-- `[getterms_aup_en]` - Embed the Acceptable Use Policy in English.
-- `[getterms_privacy_fr]` - Embed the Privacy Policy in French.
-- `[getterms_terms_fr]` - Embed the Terms of Service in French.
-- `[getterms_aup_fr]` - Embed the Acceptable Use Policy in French.
-- ... and other language options as available inside the GetTerms settings.
+- `[getterms_privacy_en]`, `[getterms_terms_en]`, `[getterms_aup_en]`
+- `[getterms_privacy_fr]`, `[getterms_terms_fr]`, `[getterms_aup_fr]`
+- Additional languages and policies are listed in the plugin settings.
 
 == Data Collection and Privacy ==
 
-The GetTerms Cookie Consent and Policies plugin collects and sends the following data to the GetTerms server:
+The plugin communicates with the GetTerms service (`https://app.getterms.io`) to deliver policy content and manage cookie consent. The following data is transmitted:
 
-- **Token String**: A token string supplied by GetTerms is used to authenticate the plugin.
-- **Domain Name**: The domain name of the site where the plugin is installed.
-- **User Cookie Consent Logs**: Records of what cookies visitors to the site accept or reject.
+- **Authentication Token**: Used to authenticate and fetch Compliance Pack data.
+- **Domain Name**: Validates the plugin’s authorization and retrieves domain-specific settings.
+- **User Consent Logs**: Records of accepted/rejected cookie categories (anonymized).
+- **Policy Requests**: Dynamic retrieval of policy content for embedding.
+- **Error Logs**: Technical error messages (non-personal) may be sent to assist with debugging.
 
-Additionally, error logs for the widget and policy embed functions may be sent to GetTerms to assist in providing support and improvements for the plugin. This data helps us ensure the plugin functions correctly and allows us to offer better support and enhancements.
+All data is anonymized where applicable and stored in compliance with GDPR data sovereignty standards.
 
-All policy embed and consent log data sent to GetTerms is stripped of PII prior to reaching the GetTerms server. All data stored on the GetTerms server complies with GDPR requirements for data sovereignty.
+== External Services ==
 
-== Remote Service Usage ==
+This plugin connects to the following service:
 
-The GetTerms plugin integrates with the GetTerms Cookie Consent and Policy service platform, which serves all consent widget functionality via a remote script.
+=== GetTerms (https://app.getterms.io) ===
 
-When enabled, the plugin embeds a script tag that loads the GetTerms Cookie Consent Widget from `https://app.getterms.io` or other domains within the getterms CDN, i.e. `https://gettermscmp.com` and `https://gettermscdn.com`. This script is required to render the cookie banner, manage consent, block scripts where applicable, and interface with services such as Google Consent Mode.
+Provides:
+- Consent management functionality via an embeddable script
+- Dynamic policy hosting and retrieval
+- Consent logging and language-specific configurations
 
-This remote script is a core part of the GetTerms service and cannot function without being embedded. This usage is permitted under WordPress.org guidelines, as the external code originates from a documented and expected third-party service.
+Domains used:
+- `app.getterms.io`
+- `gettermscdn.com`
+- `gettermscmp.com`
 
-No plugin updates, add-ons, or administrative interfaces are served from outside WordPress.
+These scripts are required to render the banner, block scripts where applicable, and interface with tools like Google Consent Mode.
 
-Administrators retain full control over whether or not the script is embedded, the manner in which it is embedded, and which language or configuration is used.
+The plugin does **not** load updates, interfaces, or add-ons from external servers — only documented and expected scripts are embedded, in compliance with WordPress.org guidelines. Admins retain full control over embedding behavior and configuration.
 
 == Development ==
 
 === Build Tools ===
 
-This plugin uses modern build tools for development and asset compilation:
+This plugin uses modern build tooling for asset management:
 
-- **Vite**: A fast build tool and development server used for bundling JavaScript assets. The plugin uses Vite to compile source files from the `src/` directory into optimized bundles in the `dist/` directory.
-- **NPM**: Node Package Manager is used for dependency management and running build scripts.
+- **Vite** compiles source JavaScript files from `src/` to `dist/`.
+- **NPM** manages dependencies and scripts.
+- Output is compiled as an IIFE for safe WordPress execution.
 
-The build configuration is defined in `vite.config.mjs`, which compiles `src/getterms.js` into `dist/getterms.bundle.js` using an IIFE (Immediately Invoked Function Expression) format suitable for WordPress plugins.
+Build config: `vite.config.mjs`
 
 === Source Code ===
 
-The complete source code for this plugin is available on GitHub:
-https://github.com/GetTerms/getterms-wpplugin
+GitHub repository: https://github.com/GetTerms/getterms-wpplugin
 
 == Changelog ==
 
 = 0.8 =
-* Integration with WP Consent API for better consent management and integration with other plugins.
-* Require WP Consent API version 1.0 or later.
+* Integration with WP Consent API.
+* Require WP Consent API v1.0 or later.
 
 = 0.7 =
-* Created readme.txt file.
-* Moved changelog into readme.txt
+* Added `readme.txt`.
+* Moved changelog into `readme.txt`.
 
 = 0.6 =
 * Improved authentication method.
-* Enhanced error logging functionality.
+* Enhanced error logging.
 
 = 0.5 =
-* Initial release of GetTerms Cookie Consent and Policies plugin beta version 0.5.
+* Initial beta release.
 
 == Support ==
 
-For support, please contact [support@getterms.io](mailto:support@getterms.io).
+For help, email [support@getterms.io](mailto:support@getterms.io)
 
 == License ==
 
