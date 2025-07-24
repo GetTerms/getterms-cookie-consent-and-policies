@@ -1,7 +1,4 @@
 <?php
-include_once ABSPATH . 'wp-admin/includes/plugin.php';
-include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 /*
 Plugin Name: GetTerms Cookie Consent and Policies
 Description: Easy installation of your GetTerms Cookie Consent and Policies widget.
@@ -43,6 +40,11 @@ function getterms_settings_page()
 add_action('admin_init', 'getterms_settings');
 
 add_action('admin_init', function () {
+	// Load plugin.php only when needed in admin context
+	if (!function_exists('is_plugin_active')) {
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+
 	if (!is_plugin_active('wp-consent-api/wp-consent-api.php')) {
 		add_action('admin_notices', function () {
 			echo '<div class="notice notice-warning"><p><strong>GetTerms Plugin Notice:</strong> The <a href="https://wordpress.org/plugins/wp-consent-api/" target="_blank">WP Consent API</a> plugin is recommended for compatibility with Google Consent Mode.</p></div>';
@@ -380,6 +382,14 @@ add_filter('wp_nav_menu_objects', 'my_custom_menu_item_output', 10, 2);
 function getterms_install_wp_consent_api()
 {
 	if (!class_exists('WP_Consent_API')) {
+		// Load required files only when needed in admin context
+		if (!function_exists('plugins_api')) {
+			require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+		}
+		if (!class_exists('Plugin_Upgrader')) {
+			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+		}
+
 		$plugin_slug = 'wp-consent-api';
 		$api = plugins_api('plugin_information', ['slug' => $plugin_slug]);
 

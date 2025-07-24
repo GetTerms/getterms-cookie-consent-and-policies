@@ -62,7 +62,10 @@ switch ($default_language) {
     <h1>GetTerms Settings</h1>
     <?php
     // --- WP Consent API dependency notice / installer ---
-    include_once ABSPATH . 'wp-admin/includes/plugin.php';
+    // Load plugin.php only when needed in admin context
+    if (!function_exists('is_plugin_active')) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
     if ( ! is_plugin_active( 'wp-consent-api/wp-consent-api.php' ) ) :
         ?>
         <div class="notice notice-warning is-dismissible">
