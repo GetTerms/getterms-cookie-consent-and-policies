@@ -64,27 +64,16 @@ For more information, refer to our:
 
 == External Services ==
 
-This plugin connects to the following service:
+This plugin connects to the GetTerms service to provide cookie consent management and legal policy document hosting. It's needed to display the cookie consent banner, manage user consent preferences, and embed automatically updating legal documents on your website.
 
-=== GetTerms (https://app.getterms.io) ===
+The plugin sends the following data to GetTerms (https://app.getterms.io):
+- Authentication token when configuring the plugin to verify your account
+- Domain name during setup to validate authorization and retrieve settings
+- User consent choices when visitors interact with the cookie banner (anonymized)
+- Policy document requests when shortcodes are displayed on pages
+- Technical error information for debugging purposes (non-personal data)
 
-Provides:
-- Consent management functionality via an embeddable script
-- Dynamic policy hosting and retrieval
-- Consent logging and language-specific configurations
-
-Domains used:
-- `app.getterms.io`
-- `gettermscdn.com`
-- `gettermscmp.com`
-
-These scripts are required to render the banner, block scripts where applicable, and interface with tools like Google Consent Mode.
-
-The plugin does **not** load updates, interfaces, or add-ons from external servers — only documented and expected scripts are embedded, in compliance with WordPress.org guidelines. Admins retain full control over embedding behavior and configuration.
-
-Learn more:
-- [Privacy Policy](https://getterms.io/our-privacy-policy)
-- [Terms of Service](https://getterms.io/our-terms-of-service)
+This service is provided by GetTerms: [Terms of Service](https://getterms.io/our-terms-of-service), [Privacy Policy](https://getterms.io/our-privacy-policy).
 
 == Development ==
 
