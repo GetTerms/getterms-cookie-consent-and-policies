@@ -1,4 +1,6 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 if ( isset( $_POST['gt_install_consent_api'] )
 	&& isset( $_POST['_gt_consent_nonce'] )
 	&& wp_verify_nonce( sanitize_key( wp_unslash( $_POST['_gt_consent_nonce'] ) ), 'gt_install_consent_api' )
