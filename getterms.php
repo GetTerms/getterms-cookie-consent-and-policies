@@ -165,8 +165,9 @@ function update_getterms_manual_widget()
 	wp_send_json_success();
 }
 
-add_action('wp_head', 'getterms_add_consent_scripts', 1);
+add_action('wp_enqueue_scripts', 'getterms_add_consent_scripts', 1);
 function getterms_add_consent_scripts() {
+
 	$widget_slug = get_option('getterms-widget-slug');
 	$google_consent = get_option('getterms-google-consent');
 	$widget_lang = get_option('getterms-widget-language');
@@ -204,6 +205,30 @@ function getterms_add_consent_scripts() {
 			wp_enqueue_script('getterms-widget', $src, array(), GETTERMS_PLUGIN_VERSION, false);
 		}
 	}
+
+	// Check if any getterms shortcodes are present in the current post/page content
+	global $post;
+	if (is_object($post) && !empty($post->post_content)) {
+		$languages = get_option('getterms-languages');
+		$policies = get_option('getterms-policies');
+
+		if (is_array($languages) && is_array($policies)) {
+			$shortcode_found = false;
+			foreach ($policies as $policy) {
+				foreach ($languages as $lang_key => $lang_name) {
+					$shortcode_tag = 'getterms_' . $policy . '_' . $lang_key;
+					if (has_shortcode($post->post_content, $shortcode_tag)) {
+						$shortcode_found = true;
+						break 2;
+					}
+				}
+			}
+
+			if ($shortcode_found) {
+				wp_enqueue_script('getterms-embed-js', 'https://app.getterms.io/dist/js/embed.js', array(), GETTERMS_PLUGIN_VERSION, true);
+			}
+		}
+	}
 }
 
 $languages = get_option('getterms-languages');
@@ -215,6 +240,7 @@ $policies = get_option('getterms-policies');
 if (is_string($policies)) {
 	$policies = json_decode($policies, true);
 }
+
 
 add_action('init', 'getterms_generate_shortcodes', 5);
 function getterms_generate_shortcodes()
@@ -229,6 +255,7 @@ function getterms_generate_shortcodes()
 				$shortcode_tag = 'getterms_' . $originalPolicy . '_' . $lang_key;
 
 				add_shortcode($shortcode_tag, function () use ($originalPolicy, $lang_key, $lang_name, $token) {
+
 					$transformedPolicy = $originalPolicy;
 					switch ($originalPolicy) {
 						case 'terms':
@@ -240,9 +267,6 @@ function getterms_generate_shortcodes()
 					}
 
 					$lang_key = str_replace('_', '-', $lang_key);
-
-					// Enqueue the embed script when shortcode is used
-					wp_enqueue_script('getterms-embed-js', 'https://app.getterms.io/dist/js/embed.js', array(), GETTERMS_PLUGIN_VERSION, true);
 
 					$output = '<div class="getterms-document-embed" data-getterms="' . esc_attr($token) . '" data-getterms-document="' . esc_attr($transformedPolicy) . '" data-getterms-lang="' . esc_attr($lang_key) . '" data-getterms-mode="direct" data-getterms-env="https://app.getterms.io"></div>';
 					return $output;
