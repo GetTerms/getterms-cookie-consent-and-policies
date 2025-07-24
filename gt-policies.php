@@ -6,11 +6,11 @@ $policies = isset($policies) ? $policies : [];
 $default_language = isset($default_language) ? $default_language : 'en-us';
 
 echo '<hr style="margin-top:1rem">';
-echo '<h2>Embed your policies</h2>';
-echo '<h4>Use these shortcodes on your pages to display your policy content</h4>';
+echo '<h2>' . __('Embed your policies', 'getterms') . '</h2>';
+echo '<h4>' . __('Use these shortcodes on your pages to display your policy content', 'getterms') . '</h4>';
 
 echo '<select id="language-selector">';
-echo '<option value="">Select a Language</option>';
+echo '<option value="">' . __('Select a Language', 'getterms') . '</option>';
 foreach ($languages as $lang_key => $lang_name) {
  $selected = ($lang_key == $default_language) ? ' selected' : '';
 	echo '<option value="' . esc_attr($lang_key) . '"' . esc_attr($selected) . '>' . esc_html($lang_name) . '</option>';
@@ -18,13 +18,15 @@ foreach ($languages as $lang_key => $lang_name) {
 echo '</select>';
 
 echo '<table class="getterms-table">';
-
+echo '<thead>';
 echo '<tr>';
-echo '<th>Policy</th>';
+echo '<th>' . __('Policy', 'getterms') . '</th>';
 foreach ($languages as $lang_key => $lang_name) {
  echo '<th data-lang="' . esc_attr($lang_key) . '">' . esc_html($lang_name) . '</th>';
 }
 echo '</tr>';
+echo '</thead>';
+echo '<tbody>';
 
 foreach ($policies as $policy) {
  echo '<tr>';
@@ -35,4 +37,5 @@ foreach ($policies as $policy) {
  }
  echo '</tr>';
 }
+echo '</tbody>';
 echo '</table>';

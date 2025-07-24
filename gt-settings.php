@@ -34,34 +34,34 @@ $languages = get_option('getterms-languages');
 $policies = get_option('getterms-policies');
 $default_language = get_option('getterms-default-language');
 
-$default_language_name = 'Unknown Language';
+$default_language_name = __('Unknown Language', 'getterms');
 switch ($default_language) {
 	case 'hi-in':
-		$default_language_name = 'Hindi';
+		$default_language_name = __('Hindi', 'getterms');
 		break;
 	case 'en-us':
-		$default_language_name = 'English (US)';
+		$default_language_name = __('English (US)', 'getterms');
 		break;
 	case 'en-au':
-		$default_language_name = 'English (UK)';
+		$default_language_name = __('English (UK)', 'getterms');
 		break;
 	case 'es':
-		$default_language_name = 'Spanish';
+		$default_language_name = __('Spanish', 'getterms');
 		break;
 	case 'de':
-		$default_language_name = 'German';
+		$default_language_name = __('German', 'getterms');
 		break;
 	case 'fr':
-		$default_language_name = 'French';
+		$default_language_name = __('French', 'getterms');
 		break;
 	case 'it':
-		$default_language_name = 'Italian';
+		$default_language_name = __('Italian', 'getterms');
 		break;
 }
 
 ?>
 <div class="wrap">
-    <h1>GetTerms Settings</h1>
+    <h1><?php _e('GetTerms Settings', 'getterms'); ?></h1>
     <?php
     // --- WP Consent API dependency notice / installer ---
     // Load plugin.php only when needed in admin context
@@ -72,9 +72,7 @@ switch ($default_language) {
         ?>
         <div class="notice notice-warning is-dismissible">
             <p>
-                <strong>GetTerms notice:</strong> The
-                <a href="https://wordpress.org/plugins/wp-consent-api/" target="_blank">WP Consent API</a>
-                plugin is required for full compatibility with Google Consent Mode.
+                <strong><?php _e('GetTerms notice:', 'getterms'); ?></strong> <?php printf(__('The %s plugin is required for full compatibility with Google Consent Mode.', 'getterms'), '<a href="https://wordpress.org/plugins/wp-consent-api/" target="_blank">WP Consent API</a>'); ?>
             </p>
             <form method="post" style="display:inline">
                 <?php
@@ -91,7 +89,7 @@ switch ($default_language) {
 		<?php do_settings_sections('getterms-settings'); ?>
         <div class="form-row" id="getterms-token-input">
             <div class="form-label">
-                <label for="getterms_token">GetTerms Token:</label>
+                <label for="getterms_token"><?php _e('GetTerms Token:', 'getterms'); ?></label>
                 <input type="text" id="getterms_token" name="getterms_token" value="<?php echo esc_attr($token); ?>" />
             </div>
             <div class="button-container">
@@ -112,14 +110,14 @@ switch ($default_language) {
 		if (!empty($languages) && !empty($policies)) {
 			include('gt-policies.php');
 		} else {
-			echo '<p>No policies have been set up yet.</p>';
+			echo '<p>' . __('No policies have been set up yet.', 'getterms') . '</p>';
 		}
 		?>
 		<?php if (!empty($widget_slug)) : ?>
             <hr style='margin-top:1rem'>
             <div id="getterms-widget-content">
                 <div style="padding-bottom: 10px;">
-                    <h2>Cookie Consent Widget Management</h2>
+                    <h2><?php _e('Cookie Consent Widget Management', 'getterms'); ?></h2>
                     <div class="toggle-group">
                         <label class="switch">
                             <input type="checkbox"
@@ -127,8 +125,8 @@ switch ($default_language) {
                                    name="getterms_auto_enable" <?php checked($auto_widget, 'true'); ?> />
                             <span class="slider round"></span>
                         </label>
-                        <p for="getterms-auto-enable-widget-toggle">
-                            Automatically Embed in <?php echo esc_html($default_language_name); ?>
+                        <p>
+                            <?php printf(__('Automatically Embed in %s', 'getterms'), esc_html($default_language_name)); ?>
                         </p>
                     </div>
                     <div class="toggle-group">
@@ -138,8 +136,8 @@ switch ($default_language) {
                                    name="getterms_manual_enable" <?php checked($manual_widget, 'true'); ?> />
                             <span class="slider round"></span>
                         </label>
-                        <p for="getterms-manual-enable-widget-toggle">
-                            Embed Widget Manually (Supports multilingual options)
+                        <p>
+                            <?php _e('Embed Widget Manually (Supports multilingual options)', 'getterms'); ?>
                         </p>
                     </div>
                 </div>
@@ -151,7 +149,7 @@ switch ($default_language) {
                     <a id="getterms-cookie-link"
                        target="_blank"
                        href="https://app.getterms.io/cookie-consent/<?php echo esc_url_raw($widget_slug); ?>">
-                        Update your Cookie Consent Widget style, layout, language, and content
+                        <?php _e('Update your Cookie Consent Widget style, layout, language, and content', 'getterms'); ?>
                     </a>
                 </div>
             </div>

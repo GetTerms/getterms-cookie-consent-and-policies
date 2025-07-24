@@ -115,12 +115,10 @@ function getgetterms_set_options()
 			update_option($option_key, $option_value);
 		}
 
-		wp_send_json_success('Options updated successfully.');
+ 	wp_send_json_success('Options updated successfully.');
 	} else {
 		wp_send_json_error('No options data provided.');
 	}
-
-	wp_die();
 }
 
 add_action('wp_ajax_get_getterms_options', 'getgetterms_get_options');
@@ -147,8 +145,6 @@ function getgetterms_get_options()
 	}
 
 	wp_send_json_success($options);
-
-	wp_die();
 }
 
 add_action('wp_ajax_update_getterms_auto_widget', 'getgetterms_update_auto_widget');
@@ -202,7 +198,7 @@ function getterms_add_consent_scripts() {
 	$show_auto = get_option('getterms-auto-widget');
 	$show_manual = get_option('getterms-manual-widget');
 
-	if (!empty($google_consent && $google_consent === 'on')) {
+	if (!empty($google_consent) && $google_consent === 'on') {
 		$google_consent_script = '
 			window.dataLayer = window.dataLayer || [];
 			function gtag() { dataLayer.push(arguments); }
@@ -224,7 +220,7 @@ function getterms_add_consent_scripts() {
 
 	if (!empty($widget_slug)) {
 		if (!empty($widget_lang) && $show_manual === 'true') {
-			$src = 'https://app.getterms.io/cookie-consent/embed/' . esc_attr($widget_slug) . '/' . $widget_lang;
+			$src = 'https://app.getterms.io/cookie-consent/embed/' . esc_attr($widget_slug) . '/' . esc_attr($widget_lang);
 		} elseif ($show_auto === 'true') {
 			$src = 'https://app.getterms.io/cookie-consent/embed/' . esc_attr($widget_slug);
 		}
@@ -353,8 +349,6 @@ function getgetterms_set_widget_lang()
 	} else {
 		wp_send_json_error('No language provided.');
 	}
-
-	wp_die();
 }
 
 /*

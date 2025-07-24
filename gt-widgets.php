@@ -32,17 +32,17 @@ function getterms_get_google_consent_template() {
 
 $googleConsentCode = getterms_get_google_consent_template();
 
-echo '<h3>Manual Installation.</h3>';
-echo '<p>To install manually, copy the entire code snippet for your selected language into the &lt;head&gt; section of your page.</p>';
-echo '<h4><strong>IMPORTANT:</strong> The code must be the first &lt;script&gt; tags on the page.</h4>';
-echo '<p>You can optionally select the "embed" option for a specific language. The widget will be automatically added to your site  &lt;head&gt;.</p>';
+echo '<h3>' . __('Manual Installation.', 'getterms') . '</h3>';
+echo '<p>' . __('To install manually, copy the entire code snippet for your selected language into the &lt;head&gt; section of your page.', 'getterms') . '</p>';
+echo '<h4><strong>' . __('IMPORTANT:', 'getterms') . '</strong> ' . __('The code must be the first &lt;script&gt; tags on the page.', 'getterms') . '</h4>';
+echo '<p>' . __('You can optionally select the "embed" option for a specific language. The widget will be automatically added to your site  &lt;head&gt;.', 'getterms') . '</p>';
 echo '<table class="code-table">';
 echo '<thead>';
 echo '<tr>';
-echo '<th class="lang-column">Language</th>';
-echo '<th class="code-column">Code</th>';
-echo '<th class="copy-column">Copy</th>';
-echo '<th class="embed-column">Embed</th>';
+echo '<th class="lang-column">' . __('Language', 'getterms') . '</th>';
+echo '<th class="code-column">' . __('Code', 'getterms') . '</th>';
+echo '<th class="copy-column">' . __('Copy', 'getterms') . '</th>';
+echo '<th class="embed-column">' . __('Embed', 'getterms') . '</th>';
 echo '</tr>';
 echo '</thead>';
 echo '<tbody>';
@@ -60,19 +60,19 @@ foreach ($languages as $lang_key => $lang_name) {
 	echo '<td>
         <div class="code-container">
             <code id="code-inner-widget-embed-' . esc_attr($lang_key) . '" class="code-snippet" style="display:none">' . esc_html($code) . '</code>
-            <button type="button" class="show-code-btn" data-lang-key="' . esc_attr($lang_key) . '">Show Code</button>
+            <button type="button" class="show-code-btn" data-lang-key="' . esc_attr($lang_key) . '">' . __('Show Code', 'getterms') . '</button>
         </div>
     </td>';
 	echo '<td>
         <button type="button" class="code-block__copy btn--border btn--icon btn--border-secondary" data-copy="#code-inner-widget-embed-' . esc_attr($lang_key) . '">
             <span class="inner">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <title>Clipboard</title>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="' . esc_attr__('Clipboard', 'getterms') . '">
+                    <title>' . __('Clipboard', 'getterms') . '</title>
                     <path fill="none" stroke="#065af9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M8.2 20.2h-6c-.8 0-1.5-.7-1.5-1.5v-15c0-.8.7-1.5 1.5-1.5h3m7.6 0h3c-.8 0 1.5.7 1.5 1.5v4.5"></path>
                     <path fill="none" stroke="#065af9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M8.2 17.2H3.8v-12h10.4v3"></path>
                     <path fill="none" stroke="#065af9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12.8 11.2h9c.8 0 1.5.7 1.5 1.5v9c0 .8-.7 1.5-1.5 1.5h-9c-.8 0-1.5-.7-1.5-1.5v-9c-.1-.8.6-1.5 1.5-1.5zM14.2 14.2h6M14.2 17.2h6M14.2 20.2h2.3M12.8 5.2H5.2v-3c0-.8.7-1.5 1.5-1.5h4.5c.8 0 1.5.7 1.5 1.5v3z"></path>
                 </svg>
-                Copy
+                ' . __('Copy', 'getterms') . '
             </span>
         </button>
     </td>';
