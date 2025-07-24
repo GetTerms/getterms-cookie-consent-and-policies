@@ -65,7 +65,7 @@ function getterms_settings()
 
 function getterms_settings_link($links)
 {
-	$settings_link = '<a href="options-general.php?page=getterms-cookie-consent-and-policies">' . __('Settings', 'getterms-cookie-consent-and-policies') . '</a>';
+	$settings_link = '<a href="options-general.php?page=getterms">' . __('Settings', 'getterms-cookie-consent-and-policies') . '</a>';
 	array_unshift($links, $settings_link);
 	return $links;
 }
@@ -255,23 +255,20 @@ function getterms_add_consent_scripts() {
 	}
 }
 
-$languages = get_option('getterms-languages');
-if (is_string($languages)) {
-	$languages = json_decode($languages, true);
-}
-
-$policies = get_option('getterms-policies');
-if (is_string($policies)) {
-	$policies = json_decode($policies, true);
-}
-
-
 add_action('init', 'getterms_generate_shortcodes', 5);
 function getterms_generate_shortcodes()
 {
 	$languages = get_option('getterms-languages');
 	$policies = get_option('getterms-policies');
 	$token = get_option('getterms-token');
+
+	// Handle JSON decoding if needed
+	if (is_string($languages)) {
+		$languages = json_decode($languages, true);
+	}
+	if (is_string($policies)) {
+		$policies = json_decode($policies, true);
+	}
 
 	if (is_array($languages) && !empty($languages) && is_array($policies) && !empty($policies)) {
 		foreach ($policies as $originalPolicy) {
