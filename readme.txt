@@ -81,6 +81,22 @@ No plugin updates, add-ons, or administrative interfaces are served from outside
 
 Administrators retain full control over whether or not the script is embedded, the manner in which it is embedded, and which language or configuration is used.
 
+== Development ==
+
+=== Build Tools ===
+
+This plugin uses modern build tools for development and asset compilation:
+
+- **Vite**: A fast build tool and development server used for bundling JavaScript assets. The plugin uses Vite to compile source files from the `src/` directory into optimized bundles in the `dist/` directory.
+- **NPM**: Node Package Manager is used for dependency management and running build scripts.
+
+The build configuration is defined in `vite.config.mjs`, which compiles `src/getterms.js` into `dist/getterms.bundle.js` using an IIFE (Immediately Invoked Function Expression) format suitable for WordPress plugins.
+
+=== Source Code ===
+
+The complete source code for this plugin is available on GitHub:
+https://github.com/GetTerms/getterms-wpplugin
+
 == Changelog ==
 
 = 0.8 =
