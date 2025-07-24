@@ -58,6 +58,10 @@ The plugin communicates with the GetTerms service (`https://app.getterms.io`) to
 
 All data is anonymized where applicable and stored in compliance with GDPR data sovereignty standards.
 
+For more information, refer to our:
+- [Privacy Policy](https://getterms.io/our-privacy-policy)
+- [Terms of Service](https://getterms.io/our-terms-of-service)
+
 == External Services ==
 
 This plugin connects to the following service:
@@ -77,6 +81,10 @@ Domains used:
 These scripts are required to render the banner, block scripts where applicable, and interface with tools like Google Consent Mode.
 
 The plugin does **not** load updates, interfaces, or add-ons from external servers — only documented and expected scripts are embedded, in compliance with WordPress.org guidelines. Admins retain full control over embedding behavior and configuration.
+
+Learn more:
+- [Privacy Policy](https://getterms.io/our-privacy-policy)
+- [Terms of Service](https://getterms.io/our-terms-of-service)
 
 == Development ==
 
