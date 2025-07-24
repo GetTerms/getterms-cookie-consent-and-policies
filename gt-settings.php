@@ -1,7 +1,8 @@
 <?php
 if ( isset( $_POST['gt_install_consent_api'] )
 	&& isset( $_POST['_gt_consent_nonce'] )
-	&& wp_verify_nonce( sanitize_key( wp_unslash( $_POST['_gt_consent_nonce'] ) ), 'gt_install_consent_api' ) ) {
+	&& wp_verify_nonce( sanitize_key( wp_unslash( $_POST['_gt_consent_nonce'] ) ), 'gt_install_consent_api' )
+	&& current_user_can( 'manage_options' ) ) {
     if ( ! class_exists( 'Plugin_Upgrader' ) ) {
         require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
     }

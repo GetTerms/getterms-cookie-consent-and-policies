@@ -75,6 +75,11 @@ add_action('wp_ajax_clear_getterms_options', 'clear_getterms_options');
 function clear_getterms_options()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
+
+	if (!current_user_can('manage_options')) {
+		wp_send_json_error('Insufficient permissions.');
+		return;
+	}
 	$options_to_clear = [
 		'getterms-token',
 		'getterms-widget-slug',
@@ -92,6 +97,11 @@ add_action('wp_ajax_set_getterms_options', 'set_getterms_options');
 function set_getterms_options()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
+
+	if (!current_user_can('manage_options')) {
+		wp_send_json_error('Insufficient permissions.');
+		return;
+	}
 
 	if (isset($_POST['options_data']) && is_array($_POST['options_data'])) {
 		$options_data = map_deep(wp_unslash($_POST['options_data']), 'sanitize_text_field');
@@ -116,6 +126,11 @@ function get_getterms_options()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
 
+	if (!current_user_can('manage_options')) {
+		wp_send_json_error('Insufficient permissions.');
+		return;
+	}
+
 	$options_to_get = [
 		'getterms-token',
 		'getterms-widget-slug',
@@ -137,8 +152,12 @@ function get_getterms_options()
 add_action('wp_ajax_update_getterms_auto_widget', 'update_getterms_auto_widget');
 function update_getterms_auto_widget()
 {
-
 	check_ajax_referer('getterms_nonce_action', 'nonce');
+
+	if (!current_user_can('manage_options')) {
+		wp_send_json_error('Insufficient permissions.');
+		return;
+	}
 
 	$auto_widget = isset($_POST['auto_widget']) ? sanitize_text_field(wp_unslash($_POST['auto_widget'])) : '0';
 	if ($auto_widget) {
@@ -153,10 +172,14 @@ function update_getterms_auto_widget()
 add_action('wp_ajax_update_getterms_manual_widget', 'update_getterms_manual_widget');
 function update_getterms_manual_widget()
 {
+	check_ajax_referer('getterms_nonce_action', 'nonce');
+
+	if (!current_user_can('manage_options')) {
+		wp_send_json_error('Insufficient permissions.');
+		return;
+	}
 
 	$manual_widget = isset($_POST['manual_widget']) ? sanitize_text_field(wp_unslash($_POST['manual_widget'])) : '0';
-
-	check_ajax_referer('getterms_nonce_action', 'nonce');
 
 	if ($manual_widget) {
 		update_option('getterms-show-widget', 'false');
@@ -312,11 +335,15 @@ function getterms_admin_scripts()
 }
 
 add_action('wp_ajax_set_widget_lang', 'set_widget_lang');
-add_action('wp_ajax_nopriv_set_widget_lang', 'set_widget_lang');
 
 function set_widget_lang()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
+
+	if (!current_user_can('manage_options')) {
+		wp_send_json_error('Insufficient permissions.');
+		return;
+	}
 
 	if (isset($_POST['lang'])) {
 		update_option('getterms-widget-language', sanitize_text_field(wp_unslash($_POST['lang'])));
@@ -354,6 +381,10 @@ function my_save_custom_menu_item($menu_id, $menu_item_db_id)
 {
 	if (!isset($_POST['update-nav-menu-nonce']) ||
 		!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['update-nav-menu-nonce'])), 'update-nav_menu')) {
+		return;
+	}
+
+	if (!current_user_can('edit_theme_options')) {
 		return;
 	}
 
