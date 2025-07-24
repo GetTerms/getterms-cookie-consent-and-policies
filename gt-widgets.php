@@ -6,6 +6,7 @@ $policies = $policies ?? [];
 $default_language = $default_language ?? 'en-us';
 $widget_slug = $widget_slug ?? null;
 $widget_language = get_option('getterms-widget-language');
+$auto_language_detection = get_option('getterms-auto-language-detection');
 
 echo '<h3>' . esc_html__('Manual Installation.', 'getterms-cookie-consent-and-policies') . '</h3>';
 echo '<p>' . esc_html__('To install manually, copy the entire code snippet for your selected language into the &lt;head&gt; section of your page.', 'getterms-cookie-consent-and-policies') . '</p>';
@@ -25,7 +26,14 @@ echo '<tbody>';
 foreach ($languages as $lang_key => $lang_name) {
 	// Create display-only code snippet template for users to copy.
 	// This HTML/JavaScript is not executed by WordPress - it's shown as escaped text.
-	$code = '&lt;script type="text/javascript" src="https://app.getterms.io/cookie-consent/embed/' . $widget_slug . '/' . $lang_key . '"&gt;&lt;/script&gt;';
+	$script_url = 'https://app.getterms.io/cookie-consent/embed/' . $widget_slug . '/' . $lang_key;
+
+	// Add auto language detection parameter if enabled
+	if ($auto_language_detection === 'true') {
+		$script_url .= '?auto=true';
+	}
+
+	$code = '&lt;script type="text/javascript" src="' . $script_url . '"&gt;&lt;/script&gt;';
 
 	$checked = ($lang_key === $widget_language) ? 'checked' : '';
 

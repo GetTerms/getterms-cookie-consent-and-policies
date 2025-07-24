@@ -226,6 +226,7 @@ jQuery(document).ready(function ($) {
 
     const autoEnableToggle = document.getElementById('getterms-auto-enable-widget-toggle');
     const manualEnableToggle = document.getElementById('getterms-manual-enable-widget-toggle');
+    const autoLanguageDetectionToggle = document.getElementById('getterms-auto-language-detection-toggle');
     const widgetSettings = document.getElementById('getterms-widget-settings');
 
     if (autoEnableToggle && manualEnableToggle && widgetSettings) {
@@ -286,6 +287,31 @@ jQuery(document).ready(function ($) {
                 }
             });
         });
+
+        if (autoLanguageDetectionToggle) {
+            autoLanguageDetectionToggle.addEventListener('change', function () {
+                $.ajax({
+                    url: getTermsAjax.ajax_url,
+                    type: 'POST',
+                    data: {
+                        action: 'update_getterms_auto_language_detection',
+                        auto_language_detection: autoLanguageDetectionToggle.checked,
+                        nonce: getTermsAjax.nonce,
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error updating auto language detection option:', error);
+                        logErrorToServer({
+                            message: `Error updating auto language detection option: ${error}`,
+                            source: 'autoLanguageDetectionToggle.addEventListener',
+                            token: $('[name="getterms_token"]').val() ?? "unknown",
+                            pluginVersion: pluginVersion,
+                            error: error,
+                            domain: currentDomain
+                        });
+                    }
+                });
+            });
+        }
 
         const showCodeButtons = document.querySelectorAll(".show-code-btn");
         showCodeButtons.forEach(button => {

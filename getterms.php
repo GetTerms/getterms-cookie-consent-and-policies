@@ -190,6 +190,23 @@ function getgetterms_update_manual_widget()
 	wp_send_json_success();
 }
 
+add_action('wp_ajax_update_getterms_auto_language_detection', 'getgetterms_update_auto_language_detection');
+function getgetterms_update_auto_language_detection()
+{
+	check_ajax_referer('getterms_nonce_action', 'nonce');
+
+	if (!current_user_can('manage_options')) {
+		wp_send_json_error('Insufficient permissions.');
+		return;
+	}
+
+	$auto_language_detection = isset($_POST['auto_language_detection']) ? sanitize_text_field(wp_unslash($_POST['auto_language_detection'])) : '0';
+
+	update_option('getterms-auto-language-detection', $auto_language_detection);
+
+	wp_send_json_success();
+}
+
 add_action('wp_enqueue_scripts', 'getterms_add_consent_scripts', 1);
 function getterms_add_consent_scripts() {
 
@@ -197,12 +214,18 @@ function getterms_add_consent_scripts() {
 	$widget_lang = get_option('getterms-widget-language');
 	$show_auto = get_option('getterms-auto-widget');
 	$show_manual = get_option('getterms-manual-widget');
+	$auto_language_detection = get_option('getterms-auto-language-detection');
 
 	if (!empty($widget_slug)) {
 		if (!empty($widget_lang) && $show_manual === 'true') {
 			$src = 'https://app.getterms.io/cookie-consent/embed/' . esc_attr($widget_slug) . '/' . esc_attr($widget_lang);
 		} elseif ($show_auto === 'true') {
 			$src = 'https://app.getterms.io/cookie-consent/embed/' . esc_attr($widget_slug);
+		}
+
+		// Add auto language detection parameter if enabled
+		if (!empty($src) && $auto_language_detection === 'true') {
+			$src .= '?auto=true';
 		}
 
 		if (!empty($src)) {

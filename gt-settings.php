@@ -29,6 +29,9 @@ $auto_widget = $auto_widget !== false ? $auto_widget : '0';
 $manual_widget = esc_attr(get_option('getterms-manual-widget'));
 $manual_widget = $manual_widget !== false ? $manual_widget : '0';
 
+$auto_language_detection = esc_attr(get_option('getterms-auto-language-detection'));
+$auto_language_detection = $auto_language_detection !== false ? $auto_language_detection : '0';
+
 $languages = get_option('getterms-languages');
 $policies = get_option('getterms-policies');
 $default_language = get_option('getterms-default-language');
@@ -141,6 +144,20 @@ switch ($default_language) {
                         </label>
                         <p>
                             <?php esc_html_e('Embed Widget Manually (Supports multilingual options)', 'getterms-cookie-consent-and-policies'); ?>
+                        </p>
+                    </div>
+                    <div class="toggle-group">
+                        <label class="switch">
+                            <input type="checkbox"
+                                   id="getterms-auto-language-detection-toggle"
+                                   name="getterms_auto_language_detection" <?php checked($auto_language_detection, 'true'); ?> />
+                            <span class="slider round"></span>
+                        </label>
+                        <p>
+                            <?php esc_html_e('Enable auto language detection', 'getterms-cookie-consent-and-policies'); ?>
+                            <span class="description" style="display: block; font-style: italic; color: #666; margin-top: 5px;">
+                                <?php esc_html_e('This implementation will attempt to match the visitor\'s Accept-Language settings in their OS/Browser to one of our available languages. The selected embed language will be used as the default fallback.', 'getterms-cookie-consent-and-policies'); ?>
+                            </span>
                         </p>
                     </div>
                 </div>
