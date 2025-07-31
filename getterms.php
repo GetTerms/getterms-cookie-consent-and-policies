@@ -218,9 +218,9 @@ function getterms_add_consent_scripts() {
 
 	if (!empty($widget_slug)) {
 		if (!empty($widget_lang) && $show_manual === 'true') {
-			$src = 'https://app.getterms.io/cookie-consent/embed/' . esc_attr($widget_slug) . '/' . esc_attr($widget_lang);
+			$src = 'https://gettermscmp.com/cookie-consent/embed/' . esc_attr($widget_slug) . '/' . esc_attr($widget_lang);
 		} elseif ($show_auto === 'true') {
-			$src = 'https://app.getterms.io/cookie-consent/embed/' . esc_attr($widget_slug);
+			$src = 'https://gettermscmp.com/cookie-consent/embed/' . esc_attr($widget_slug);
 		}
 
 		// Add auto language detection parameter if enabled
@@ -252,7 +252,7 @@ function getterms_add_consent_scripts() {
 			}
 
 			if ($shortcode_found) {
-				wp_enqueue_script('getterms-embed-js', 'https://app.getterms.io/dist/js/embed.js', array(), GETTERMS_PLUGIN_VERSION, true);
+				wp_enqueue_script('getterms-embed-js', 'https://gettermscdn.com/dist/js/embed.js', array(), GETTERMS_PLUGIN_VERSION, true);
 			}
 		}
 	}
@@ -292,7 +292,7 @@ function getterms_generate_shortcodes()
 
 					$lang_key = str_replace('_', '-', $lang_key);
 
-					$output = '<div class="getterms-document-embed" data-getterms="' . esc_attr($token) . '" data-getterms-document="' . esc_attr($transformedPolicy) . '" data-getterms-lang="' . esc_attr($lang_key) . '" data-getterms-mode="direct" data-getterms-env="https://app.getterms.io"></div>';
+					$output = '<div class="getterms-document-embed" data-getterms="' . esc_attr($token) . '" data-getterms-document="' . esc_attr($transformedPolicy) . '" data-getterms-lang="' . esc_attr($lang_key) . '" data-getterms-mode="direct" data-getterms-env="https://gettermscdn.com"></div>';
 					return $output;
 				});
 			}

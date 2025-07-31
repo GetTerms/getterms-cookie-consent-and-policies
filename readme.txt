@@ -48,7 +48,7 @@ Use the following shortcodes to display your policy documents:
 
 == Data Collection and Privacy ==
 
-The plugin communicates with the GetTerms service (`https://app.getterms.io`) to deliver policy content and manage cookie consent. The following data is transmitted:
+The plugin communicates with the GetTerms content network (`https://app.getterms.io`, `https://gettermscmp.com`, `https://gettermscdn.com`) to deliver policy content and manage cookie consent. The following data is transmitted:
 
 - **Authentication Token**: Used to authenticate and fetch Compliance Pack data.
 - **Domain Name**: Validates the plugin’s authorization and retrieves domain-specific settings.
@@ -66,7 +66,7 @@ For more information, refer to our:
 
 This plugin connects to the GetTerms service to provide cookie consent management and legal policy document hosting. It's needed to display the cookie consent banner, manage user consent preferences, and embed automatically updating legal documents on your website.
 
-The plugin sends the following data to GetTerms (https://app.getterms.io):
+The plugin sends the following data to GetTerms (`https://app.getterms.io`, `https://gettermscmp.com`, `https://gettermscdn.com`):
 - Authentication token when configuring the plugin to verify your account
 - Domain name during setup to validate authorization and retrieve settings
 - User consent choices when visitors interact with the cookie banner (anonymized)

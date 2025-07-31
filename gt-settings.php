@@ -168,7 +168,7 @@ switch ($default_language) {
                 <div>
                     <a id="getterms-cookie-link"
                        target="_blank"
-                       href="https://app.getterms.io/cookie-consent/<?php echo esc_url_raw($widget_slug); ?>">
+                       href="https://app.getterms.io/cookie-consent/<?php echo esc_url_raw($widget_slug); ?>/dashboard/appearance">
                         <?php esc_html_e('Update your Cookie Consent Widget style, layout, language, and content', 'getterms-cookie-consent-and-policies'); ?>
                     </a>
                 </div>

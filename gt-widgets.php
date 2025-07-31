@@ -26,7 +26,7 @@ echo '<tbody>';
 foreach ($languages as $lang_key => $lang_name) {
 	// Create display-only code snippet template for users to copy.
 	// This HTML/JavaScript is not executed by WordPress - it's shown as escaped text.
-	$script_url = 'https://app.getterms.io/cookie-consent/embed/' . $widget_slug . '/' . $lang_key;
+	$script_url = 'https://gettermscmp.com/cookie-consent/embed/' . $widget_slug . '/' . $lang_key;
 
 	// Add auto language detection parameter if enabled
 	if ($auto_language_detection === 'true') {
