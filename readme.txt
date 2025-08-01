@@ -35,9 +35,10 @@ The GetTerms plugin helps you implement cookie consent management and embed lega
 2. Enter your GetTerms token and save your settings.
 
 === Embedding the Cookie Consent Widget ===
-- Enable the auto-embed option in plugin settings to insert the consent widget in the `<head>` tag.
+- Enable the auto-embed option in plugin settings to insert the consent widget in the `&lt;head&gt;` tag.
 - You can also embed manually with the provided script tag for advanced use cases or multilingual configurations.
 - To ensure proper consent enforcement, embed the script as early as possible in the head section.
+- If you have manually included other scripts in your `&lt;head&gt;` the recommendation is to manually embed the GetTerms script above all other scripts, and not use auto-embed
 
 === Using Shortcodes ===
 Use the following shortcodes to display your policy documents:

@@ -133,6 +133,9 @@ switch ($default_language) {
                             <?php 
                             /* translators: %s: Default language name (e.g., English (US), Spanish, etc.) */
                             printf(esc_html__('Automatically Embed in %s', 'getterms-cookie-consent-and-policies'), esc_html($default_language_name)); ?>
+                            <span class="description" style="display: block; font-style: italic; color: #666; margin-top: 5px;">
+                                <?php esc_html_e('If you have manually edited your site files to place other scripts at the top of the &lt;head&gt;, auto-blocking of cookies may work inconsistently and manual implementation of our script is recommended .', 'getterms-cookie-consent-and-policies'); ?>
+                            </span>
                         </p>
                     </div>
                     <div class="toggle-group">
