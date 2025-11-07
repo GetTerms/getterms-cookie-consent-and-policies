@@ -36,34 +36,34 @@ $languages = get_option('getterms-languages');
 $policies = get_option('getterms-policies');
 $default_language = get_option('getterms-default-language');
 
-$default_language_name = __('Unknown Language', 'getterms-cookie-consent-and-policies');
+$default_language_name = __('Unknown Language', 'getterms-cookie-consent-policies');
 switch ($default_language) {
 	case 'hi-in':
-		$default_language_name = __('Hindi', 'getterms-cookie-consent-and-policies');
+		$default_language_name = __('Hindi', 'getterms-cookie-consent-policies');
 		break;
 	case 'en-us':
-		$default_language_name = __('English (US)', 'getterms-cookie-consent-and-policies');
+		$default_language_name = __('English (US)', 'getterms-cookie-consent-policies');
 		break;
 	case 'en-au':
-		$default_language_name = __('English (UK)', 'getterms-cookie-consent-and-policies');
+		$default_language_name = __('English (UK)', 'getterms-cookie-consent-policies');
 		break;
 	case 'es':
-		$default_language_name = __('Spanish', 'getterms-cookie-consent-and-policies');
+		$default_language_name = __('Spanish', 'getterms-cookie-consent-policies');
 		break;
 	case 'de':
-		$default_language_name = __('German', 'getterms-cookie-consent-and-policies');
+		$default_language_name = __('German', 'getterms-cookie-consent-policies');
 		break;
 	case 'fr':
-		$default_language_name = __('French', 'getterms-cookie-consent-and-policies');
+		$default_language_name = __('French', 'getterms-cookie-consent-policies');
 		break;
 	case 'it':
-		$default_language_name = __('Italian', 'getterms-cookie-consent-and-policies');
+		$default_language_name = __('Italian', 'getterms-cookie-consent-policies');
 		break;
 }
 
 ?>
 <div class="wrap">
-    <h1><?php esc_html_e('GetTerms Settings', 'getterms-cookie-consent-and-policies'); ?></h1>
+    <h1><?php esc_html_e('GetTerms Settings', 'getterms-cookie-consent-policies'); ?></h1>
     <?php
     // --- WP Consent API dependency notice / installer ---
     // Load plugin.php only when needed in admin context
@@ -74,9 +74,9 @@ switch ($default_language) {
         ?>
         <div class="notice notice-warning is-dismissible">
             <p>
-                <strong><?php esc_html_e('GetTerms notice:', 'getterms-cookie-consent-and-policies'); ?></strong> <?php
+                <strong><?php esc_html_e('GetTerms notice:', 'getterms-cookie-consent-policies'); ?></strong> <?php
                 /* translators: %s: Plugin name with link to WordPress.org plugin page */
-                printf(esc_html__('The %s plugin is required for full compatibility with Google Consent Mode.', 'getterms-cookie-consent-and-policies'), '<a href="https://wordpress.org/plugins/wp-consent-api/" target="_blank">WP Consent API</a>'); ?>
+                printf(esc_html__('The %s plugin is required for full compatibility with Google Consent Mode.', 'getterms-cookie-consent-policies'), '<a href="https://wordpress.org/plugins/wp-consent-api/" target="_blank">WP Consent API</a>'); ?>
             </p>
             <form method="post" style="display:inline">
                 <?php
@@ -93,7 +93,7 @@ switch ($default_language) {
 		<?php do_settings_sections('getterms-settings'); ?>
         <div class="form-row" id="getterms-token-input">
             <div class="form-label">
-                <label for="getterms_token"><?php esc_html_e('GetTerms Token:', 'getterms-cookie-consent-and-policies'); ?></label>
+                <label for="getterms_token"><?php esc_html_e('GetTerms Token:', 'getterms-cookie-consent-policies'); ?></label>
                 <input type="text" id="getterms_token" name="getterms_token" value="<?php echo esc_attr($token); ?>" />
             </div>
             <div class="button-container">
@@ -114,14 +114,14 @@ switch ($default_language) {
 		if (!empty($languages) && !empty($policies)) {
 			include('gt-policies.php');
 		} else {
-			echo '<p>' . esc_html__('No policies have been set up yet.', 'getterms-cookie-consent-and-policies') . '</p>';
+			echo '<p>' . esc_html__('No policies have been set up yet.', 'getterms-cookie-consent-policies') . '</p>';
 		}
 		?>
 		<?php if (!empty($widget_slug)) : ?>
             <hr style='margin-top:1rem'>
             <div id="getterms-widget-content">
                 <div style="padding-bottom: 10px;">
-                    <h2><?php esc_html_e('Cookie Consent Widget Management', 'getterms-cookie-consent-and-policies'); ?></h2>
+                    <h2><?php esc_html_e('Cookie Consent Widget Management', 'getterms-cookie-consent-policies'); ?></h2>
                     <div class="toggle-group">
                         <label class="switch">
                             <input type="checkbox"
@@ -132,9 +132,9 @@ switch ($default_language) {
                         <p>
                             <?php 
                             /* translators: %s: Default language name (e.g., English (US), Spanish, etc.) */
-                            printf(esc_html__('Automatically Embed in %s', 'getterms-cookie-consent-and-policies'), esc_html($default_language_name)); ?>
+                            printf(esc_html__('Automatically Embed in %s', 'getterms-cookie-consent-policies'), esc_html($default_language_name)); ?>
                             <span class="description" style="display: block; font-style: italic; color: #666; margin-top: 5px;">
-                                <?php esc_html_e('If you have manually edited your site files to place other scripts at the top of the &lt;head&gt;, auto-blocking of cookies may work inconsistently and manual implementation of our script is recommended .', 'getterms-cookie-consent-and-policies'); ?>
+                                <?php esc_html_e('If you have manually edited your site files to place other scripts at the top of the &lt;head&gt;, auto-blocking of cookies may work inconsistently and manual implementation of our script is recommended .', 'getterms-cookie-consent-policies'); ?>
                             </span>
                         </p>
                     </div>
@@ -146,7 +146,7 @@ switch ($default_language) {
                             <span class="slider round"></span>
                         </label>
                         <p>
-                            <?php esc_html_e('Embed Widget Manually (Supports multilingual options)', 'getterms-cookie-consent-and-policies'); ?>
+                            <?php esc_html_e('Embed Widget Manually (Supports multilingual options)', 'getterms-cookie-consent-policies'); ?>
                         </p>
                     </div>
                     <div class="toggle-group">
@@ -157,22 +157,22 @@ switch ($default_language) {
                             <span class="slider round"></span>
                         </label>
                         <p>
-                            <?php esc_html_e('Enable auto language detection', 'getterms-cookie-consent-and-policies'); ?>
+                            <?php esc_html_e('Enable auto language detection', 'getterms-cookie-consent-policies'); ?>
                             <span class="description" style="display: block; font-style: italic; color: #666; margin-top: 5px;">
-                                <?php esc_html_e('This implementation will attempt to match the visitor\'s Accept-Language settings in their OS/Browser to one of our available languages. The selected embed language will be used as the default fallback.', 'getterms-cookie-consent-and-policies'); ?>
+                                <?php esc_html_e('This implementation will attempt to match the visitor\'s Accept-Language settings in their OS/Browser to one of our available languages. The selected embed language will be used as the default fallback.', 'getterms-cookie-consent-policies'); ?>
                             </span>
                         </p>
                     </div>
                 </div>
 
-                <div id="getterms-widget-settings" style="display: <?php echo $manual_widget === 'true' ? 'block' : 'none' ?>">
+                <div id="getterms-widget-settings" style="display: <?php echo esc_attr($manual_widget === 'true' ? 'block' : 'none'); ?>">
 					<?php include('gt-widgets.php')?>
                 </div>
                 <div>
                     <a id="getterms-cookie-link"
                        target="_blank"
-                       href="https://app.getterms.io/cookie-consent/<?php echo esc_url_raw($widget_slug); ?>/dashboard/appearance">
-                        <?php esc_html_e('Update your Cookie Consent Widget style, layout, language, and content', 'getterms-cookie-consent-and-policies'); ?>
+                       href="https://app.getterms.io/cookie-consent/<?php echo esc_url($widget_slug); ?>/dashboard/appearance">
+                        <?php esc_html_e('Update your Cookie Consent Widget style, layout, language, and content', 'getterms-cookie-consent-policies'); ?>
                     </a>
                 </div>
             </div>

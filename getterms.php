@@ -2,13 +2,13 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /*
-Plugin Name: GetTerms Cookie Consent and Policies
+Plugin Name: GetTerms Cookie Consent & Policies
 Description: Easy installation of your GetTerms Cookie Consent and Policies widget.
 Version: 0.8
 Author: General Labs.
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: getterms-cookie-consent-and-policies
+Text Domain: getterms-cookie-consent-policies
 Requires Plugins: wp-consent-api
 */
 
@@ -66,7 +66,7 @@ function getterms_settings()
 
 function getterms_settings_link($links)
 {
-	$settings_link = '<a href="options-general.php?page=getterms">' . __('Settings', 'getterms-cookie-consent-and-policies') . '</a>';
+	$settings_link = '<a href="options-general.php?page=getterms">' . __('Settings', 'getterms-cookie-consent-policies') . '</a>';
 	array_unshift($links, $settings_link);
 	return $links;
 }
@@ -74,8 +74,10 @@ function getterms_settings_link($links)
 $plugin = plugin_basename(__FILE__);
 add_filter("plugin_action_links_$plugin", 'getterms_settings_link');
 
-add_action('wp_ajax_clear_getterms_options', 'getgetterms_clear_options');
-function getgetterms_clear_options()
+add_action('wp_ajax_getterms_clear_options', 'getterms_clear_options');
+// Backward compatibility with older admin bundle action names
+add_action('wp_ajax_clear_getterms_options', 'getterms_clear_options');
+function getterms_clear_options()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
 
@@ -96,8 +98,10 @@ function getgetterms_clear_options()
 	wp_send_json_success('Options cleared successfully.');
 }
 
-add_action('wp_ajax_set_getterms_options', 'getgetterms_set_options');
-function getgetterms_set_options()
+add_action('wp_ajax_getterms_set_options', 'getterms_set_options');
+// Backward compatibility with older admin bundle action names
+add_action('wp_ajax_set_getterms_options', 'getterms_set_options');
+function getterms_set_options()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
 
@@ -122,8 +126,10 @@ function getgetterms_set_options()
 	}
 }
 
-add_action('wp_ajax_get_getterms_options', 'getgetterms_get_options');
-function getgetterms_get_options()
+add_action('wp_ajax_getterms_get_options', 'getterms_get_options');
+// Backward compatibility with older admin bundle action names
+add_action('wp_ajax_get_getterms_options', 'getterms_get_options');
+function getterms_get_options()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
 
@@ -148,8 +154,10 @@ function getgetterms_get_options()
 	wp_send_json_success($options);
 }
 
-add_action('wp_ajax_update_getterms_auto_widget', 'getgetterms_update_auto_widget');
-function getgetterms_update_auto_widget()
+add_action('wp_ajax_getterms_update_auto_widget', 'getterms_update_auto_widget');
+// Backward compatibility with older admin bundle action names
+add_action('wp_ajax_update_getterms_auto_widget', 'getterms_update_auto_widget');
+function getterms_update_auto_widget()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
 
@@ -168,8 +176,10 @@ function getgetterms_update_auto_widget()
 	wp_send_json_success();
 }
 
-add_action('wp_ajax_update_getterms_manual_widget', 'getgetterms_update_manual_widget');
-function getgetterms_update_manual_widget()
+add_action('wp_ajax_getterms_update_manual_widget', 'getterms_update_manual_widget');
+// Backward compatibility with older admin bundle action names
+add_action('wp_ajax_update_getterms_manual_widget', 'getterms_update_manual_widget');
+function getterms_update_manual_widget()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
 
@@ -190,8 +200,10 @@ function getgetterms_update_manual_widget()
 	wp_send_json_success();
 }
 
-add_action('wp_ajax_update_getterms_auto_language_detection', 'getgetterms_update_auto_language_detection');
-function getgetterms_update_auto_language_detection()
+add_action('wp_ajax_getterms_update_auto_language_detection', 'getterms_update_auto_language_detection');
+// Backward compatibility with older admin bundle action names
+add_action('wp_ajax_update_getterms_auto_language_detection', 'getterms_update_auto_language_detection');
+function getterms_update_auto_language_detection()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
 
@@ -207,15 +219,15 @@ function getgetterms_update_auto_language_detection()
 	wp_send_json_success();
 }
 
-add_action('wp_enqueue_scripts', 'getterms_add_consent_scripts', 1);
-function getterms_add_consent_scripts() {
-
+// Helper to build the widget script URL consistently
+function getterms_build_widget_src() {
 	$widget_slug = get_option('getterms-widget-slug');
 	$widget_lang = get_option('getterms-widget-language');
 	$show_auto = get_option('getterms-auto-widget');
 	$show_manual = get_option('getterms-manual-widget');
 	$auto_language_detection = get_option('getterms-auto-language-detection');
 
+	$src = '';
 	if (!empty($widget_slug)) {
 		if (!empty($widget_lang) && $show_manual === 'true') {
 			$src = 'https://gettermscmp.com/cookie-consent/embed/' . esc_attr($widget_slug) . '/' . esc_attr($widget_lang);
@@ -227,10 +239,37 @@ function getterms_add_consent_scripts() {
 		if (!empty($src) && $auto_language_detection === 'true') {
 			$src .= '?auto=true';
 		}
+	}
+	return $src;
+}
 
-		if (!empty($src)) {
-			wp_enqueue_script('getterms-widget', $src, array(), GETTERMS_PLUGIN_VERSION, false);
-		}
+// Optionally inject the widget script at the very top of <head> using wp_head
+// Developers can enable this behavior by filtering 'getterms_inject_top_head' to true.
+add_action('wp_head', function () {
+	$inject_top = apply_filters('getterms_inject_top_head', false);
+	if (!$inject_top) {
+		return;
+	}
+	$src = getterms_build_widget_src();
+	if (!empty($src)) {
+		// Enqueue as early as possible in the head so it will be printed by wp_print_head_scripts
+		wp_enqueue_script('getterms-widget-top', $src, array(), GETTERMS_PLUGIN_VERSION, false);
+		// Mark as handled to avoid double-enqueue below
+		$GLOBALS['getterms_widget_printed_top_head'] = true;
+	}
+}, 1);
+
+add_action('wp_enqueue_scripts', 'getterms_add_consent_scripts', 1);
+function getterms_add_consent_scripts() {
+	// If we've already printed the script at the very top of head, skip enqueueing it again
+	if (!empty($GLOBALS['getterms_widget_printed_top_head'])) {
+		// Still handle embed.js enqueue for shortcodes below
+		$skip_widget_enqueue = true;
+	}
+
+	$src = getterms_build_widget_src();
+	if (empty($skip_widget_enqueue) && !empty($src)) {
+		wp_enqueue_script('getterms-widget', $src, array(), GETTERMS_PLUGIN_VERSION, false);
 	}
 
 	// Check if any getterms shortcodes are present in the current post/page content
@@ -332,9 +371,11 @@ function getterms_admin_scripts()
 	);
 }
 
-add_action('wp_ajax_set_widget_lang', 'getgetterms_set_widget_lang');
+add_action('wp_ajax_getterms_set_widget_lang', 'getterms_set_widget_lang');
+// Backward compatibility with older admin bundle action names
+add_action('wp_ajax_set_widget_lang', 'getterms_set_widget_lang');
 
-function getgetterms_set_widget_lang()
+function getterms_set_widget_lang()
 {
 	check_ajax_referer('getterms_nonce_action', 'nonce');
 
@@ -354,12 +395,12 @@ function getgetterms_set_widget_lang()
 /*
  * Custom Menu option for Consent Widget
  */
-function getgetterms_custom_menu_item($item_id, $item, $depth, $args)
+function getterms_custom_menu_item($item_id, $item, $depth, $args)
 {
 	?>
     <div class="field-custom description-wide">
         <label for="edit-menu-item-custom-<?php echo esc_attr($item_id); ?>">
- 		<?php esc_html_e('Custom Menu Item Field', 'getterms-cookie-consent-and-policies'); ?><br/>
+ 		<?php esc_html_e('Custom Menu Item Field', 'getterms-cookie-consent-policies'); ?><br/>
             <input type="text"
                    id="edit-menu-item-custom-<?php echo esc_attr($item_id); ?>"
                    class="widefat edit-menu-item-custom"
@@ -371,9 +412,9 @@ function getgetterms_custom_menu_item($item_id, $item, $depth, $args)
 	<?php
 }
 
-add_action('wp_nav_menu_item_custom_fields', 'getgetterms_custom_menu_item', 10, 4);
+add_action('wp_nav_menu_item_custom_fields', 'getterms_custom_menu_item', 10, 4);
 
-function getgetterms_save_custom_menu_item($menu_id, $menu_item_db_id)
+function getterms_save_custom_menu_item($menu_id, $menu_item_db_id)
 {
 	if (!isset($_POST['update-nav-menu-nonce']) ||
 		!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['update-nav-menu-nonce'])), 'update-nav_menu')) {
@@ -392,9 +433,9 @@ function getgetterms_save_custom_menu_item($menu_id, $menu_item_db_id)
 	}
 }
 
-add_action('wp_update_nav_menu_item', 'getgetterms_save_custom_menu_item', 10, 2);
+add_action('wp_update_nav_menu_item', 'getterms_save_custom_menu_item', 10, 2);
 
-function getgetterms_custom_menu_item_output($items, $args)
+function getterms_custom_menu_item_output($items, $args)
 {
 	foreach ($items as &$item) {
 		$custom_value = get_post_meta($item->ID, '_menu_item_custom', true);
@@ -405,7 +446,7 @@ function getgetterms_custom_menu_item_output($items, $args)
 	return $items;
 }
 
-add_filter('wp_nav_menu_objects', 'getgetterms_custom_menu_item_output', 10, 2);
+add_filter('wp_nav_menu_objects', 'getterms_custom_menu_item_output', 10, 2);
 
 function getterms_install_wp_consent_api()
 {

@@ -58,7 +58,7 @@ jQuery(document).ready(function ($) {
             url: getTermsAjax.ajax_url,
             method: 'POST',
             data: {
-                action: 'clear_getterms_options',
+                action: 'getterms_clear_options',
                 nonce: getTermsAjax.nonce,
             },
             success: function () {
@@ -73,7 +73,7 @@ jQuery(document).ready(function ($) {
                             url: getTermsAjax.ajax_url,
                             method: 'POST',
                             data: {
-                                action: 'set_getterms_options',
+                                action: 'getterms_set_options',
                                 nonce: getTermsAjax.nonce,
                                 options_data: {
                                     'getterms-token': fetchResponse.token,
@@ -91,7 +91,7 @@ jQuery(document).ready(function ($) {
                                 $('#getterms-content').hide();
                                 logErrorToServer({
                                     message: `Error setting options: ${error}`,
-                                    source: 'updateToken > set_getterms_options',
+                                    source: 'updateToken > getterms_set_options',
                                     token: token,
                                     pluginVersion: pluginVersion,
                                     error: error,
@@ -135,7 +135,7 @@ jQuery(document).ready(function ($) {
             url: getTermsAjax.ajax_url,
             method: 'POST',
             data: {
-                action: 'get_getterms_options',
+                action: 'getterms_get_options',
                 nonce: getTermsAjax.nonce,
             },
             success: function (response) {
@@ -152,7 +152,7 @@ jQuery(document).ready(function ($) {
                 callback('AJAX error');
                 logErrorToServer({
                     message: `Error fetching options: ${error}`,
-                    source: 'fetchGetTermsOptions > get_getterms_options',
+                    source: 'fetchGetTermsOptions > getterms_get_options',
                     token: $('[name="getterms_token"]').val() ?? "unknown",
                     pluginVersion: pluginVersion,
                     error: error,
@@ -240,7 +240,7 @@ jQuery(document).ready(function ($) {
                 url: getTermsAjax.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'update_getterms_auto_widget',
+                    action: 'getterms_update_auto_widget',
                     auto_widget: autoEnableToggle.checked,
                     nonce: getTermsAjax.nonce,
                 },
@@ -270,7 +270,7 @@ jQuery(document).ready(function ($) {
                 url: getTermsAjax.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'update_getterms_manual_widget',
+                    action: 'getterms_update_manual_widget',
                     manual_widget: manualEnableToggle.checked,
                     nonce: getTermsAjax.nonce,
                 },
@@ -294,7 +294,7 @@ jQuery(document).ready(function ($) {
                     url: getTermsAjax.ajax_url,
                     type: 'POST',
                     data: {
-                        action: 'update_getterms_auto_language_detection',
+                        action: 'getterms_update_auto_language_detection',
                         auto_language_detection: autoLanguageDetectionToggle.checked,
                         nonce: getTermsAjax.nonce,
                     },
@@ -355,7 +355,7 @@ jQuery(document).ready(function ($) {
                         url: ajaxurl,
                         type: 'POST',
                         data: {
-                            action: 'set_widget_lang',
+                            action: 'getterms_set_widget_lang',
                             lang: lang,
                             nonce: getTermsAjax.nonce
                         },
@@ -363,7 +363,7 @@ jQuery(document).ready(function ($) {
                             console.error('AJAX error:', error);
                             logErrorToServer({
                                 message: `Error setting widget language: ${error}`,
-                                source: 'checkboxes.forEach > set_widget_lang',
+                                source: 'checkboxes.forEach > getterms_set_widget_lang',
                                 token: $('[name="getterms_token"]').val() ?? "unknown",
                                 pluginVersion: pluginVersion,
                                 error: error,
@@ -376,7 +376,7 @@ jQuery(document).ready(function ($) {
                         url: ajaxurl,
                         type: 'POST',
                         data: {
-                            action: 'set_widget_lang',
+                            action: 'getterms_set_widget_lang',
                             lang: null,
                             nonce: getTermsAjax.nonce
                         },
@@ -384,7 +384,7 @@ jQuery(document).ready(function ($) {
                             console.error('AJAX error:', error);
                             logErrorToServer({
                                 message: `Error setting widget language: ${error}`,
-                                source: 'checkboxes.forEach > set_widget_lang > ELSE',
+                                source: 'checkboxes.forEach > getterms_set_widget_lang > ELSE',
                                 token: $('[name="getterms_token"]').val() ?? "unknown",
                                 pluginVersion: pluginVersion,
                                 error: error,
