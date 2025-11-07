@@ -448,6 +448,18 @@ function getterms_custom_menu_item_output($items, $args)
 
 add_filter('wp_nav_menu_objects', 'getterms_custom_menu_item_output', 10, 2);
 
+// Admin-post handler to install WP Consent API securely via form submission
+add_action('admin_post_gt_install_consent_api', 'getterms_handle_install_consent_api');
+function getterms_handle_install_consent_api() {
+	if (!current_user_can('manage_options')) {
+		wp_die(__('Insufficient permissions.', 'getterms-cookie-consent-policies'));
+	}
+	check_admin_referer('gt_install_consent_api', '_gt_consent_nonce');
+	getterms_install_wp_consent_api();
+	wp_safe_redirect(admin_url('options-general.php?page=getterms'));
+	exit;
+}
+
 function getterms_install_wp_consent_api()
 {
 	if (!class_exists('WP_Consent_API')) {

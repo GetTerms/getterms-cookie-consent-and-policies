@@ -1,25 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-if ( isset( $_POST['gt_install_consent_api'] )
-	&& isset( $_POST['_gt_consent_nonce'] )
-	&& wp_verify_nonce( sanitize_key( wp_unslash( $_POST['_gt_consent_nonce'] ) ), 'gt_install_consent_api' )
-	&& current_user_can( 'manage_options' ) ) {
-    if ( ! class_exists( 'Plugin_Upgrader' ) ) {
-        require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-    }
-    if ( ! function_exists( 'plugins_api' ) ) {
-        require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-    }
-    $api = plugins_api( 'plugin_information', [ 'slug' => 'wp-consent-api' ] );
-    if ( ! is_wp_error( $api ) ) {
-        $upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
-        $upgrader->install( $api->download_link );
-        wp_safe_redirect( admin_url( 'options-general.php?page=getterms' ) );
-        exit;
-    }
-}
-
 $token = esc_attr(get_option('getterms-token'));
 $widget_slug = esc_attr(get_option('getterms-widget-slug'));
 
@@ -78,11 +59,11 @@ switch ($default_language) {
                 /* translators: %s: Plugin name with link to WordPress.org plugin page */
                 printf(esc_html__('The %s plugin is required for full compatibility with Google Consent Mode.', 'getterms-cookie-consent-policies'), '<a href="https://wordpress.org/plugins/wp-consent-api/" target="_blank">WP Consent API</a>'); ?>
             </p>
-            <form method="post" style="display:inline">
+            <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline">
                 <?php
                 wp_nonce_field( 'gt_install_consent_api', '_gt_consent_nonce' );
                 ?>
-                <input type="hidden" name="gt_install_consent_api" value="1">
+                <input type="hidden" name="action" value="gt_install_consent_api">
                 <input type="submit" class="button button-primary"
                        value="Install & Activate WP Consent API">
             </form>
