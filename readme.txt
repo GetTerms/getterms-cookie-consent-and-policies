@@ -112,16 +112,31 @@ For more information, refer to our:
 
 == External Services ==
 
-This plugin connects to the GetTerms service to provide cookie consent management and legal policy document hosting. It's needed to display the cookie consent banner, manage user consent preferences, and embed automatically updating legal documents on your website.
+This plugin relies on external services operated by GetTerms to function. It reaches out to these services to display the Cookie Consent Widget, record consent choices, and embed automatically updating legal documents. Below we explain what each service is used for, what data is sent, and when.
 
-The plugin sends the following data to GetTerms (`https://app.getterms.io`, `https://gettermscmp.com`, `https://gettermscdn.com`):
-- Authentication token when configuring the plugin to verify your account
-- Domain name during setup to validate authorization and retrieve settings
-- User consent choices when visitors interact with the cookie banner (anonymized)
-- Policy document requests when shortcodes are displayed on pages
-- Technical error information for debugging purposes (non-personal data)
+Services used (all operated by GetTerms Pty Ltd):
+- https://app.getterms.io — Application/API used for account authentication, compliance pack configuration, and policy retrieval.
+- https://gettermscmp.com — Cookie Consent Widget service that renders the banner and manages user consent interactions.
+- https://gettermscdn.com — Content Delivery Network for static assets and the document/embed runtime used to display policies.
 
-This service is provided by GetTerms: [Terms of Service](https://getterms.io/our-terms-of-service), [Privacy Policy](https://getterms.io/our-privacy-policy).
+What data is sent and when
+- When you save settings in the WordPress admin (Settings → GetTerms):
+  - Authentication token (provided by you) is sent to app.getterms.io to verify your account and fetch your Compliance Pack configuration.
+  - Your site’s domain is sent to app.getterms.io to validate authorization and deliver domain‑specific settings.
+- When a page loads with the Cookie Consent Widget enabled (auto‑embed or manual embed):
+  - The page will request widget resources from gettermscmp.com and gettermscdn.com.
+  - Anonymous consent state and user choices (e.g., accepted/rejected categories) are transmitted to gettermscmp.com when visitors interact with the banner, for the purpose of storing and enforcing consent. No personally identifiable information is required for this.
+- When a page renders a policy via a shortcode (e.g., Privacy Policy, Terms):
+  - The embed runtime from gettermscdn.com requests the latest policy content from app.getterms.io and/or the CDN, along with the configured language.
+- When technical errors occur:
+  - Non‑personal error details may be sent to the above services to help diagnose and resolve issues.
+
+Terms of Service and Privacy Policy
+- All of the above domains are operated by GetTerms and governed by the same legal documents:
+  - Terms of Service: https://getterms.io/our-terms-of-service
+  - Privacy Policy: https://getterms.io/our-privacy-policy
+
+We disclose these external connections for transparency and to help you assess compliance obligations for your site.
 
 == Development ==
 
