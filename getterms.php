@@ -448,40 +448,6 @@ function getterms_custom_menu_item_output($items, $args)
 
 add_filter('wp_nav_menu_objects', 'getterms_custom_menu_item_output', 10, 2);
 
-// Admin-post handler to install WP Consent API securely via form submission
-add_action('admin_post_gt_install_consent_api', 'getterms_handle_install_consent_api');
-function getterms_handle_install_consent_api() {
-	if (!current_user_can('manage_options')) {
-		wp_die(__('Insufficient permissions.', 'getterms-cookie-consent-policies'));
-	}
-	check_admin_referer('gt_install_consent_api', '_gt_consent_nonce');
-	getterms_install_wp_consent_api();
-	wp_safe_redirect(admin_url('options-general.php?page=getterms'));
-	exit;
-}
-
-function getterms_install_wp_consent_api()
-{
-	if (!class_exists('WP_Consent_API')) {
-		// Load required files only when needed in admin context
-		if (!function_exists('plugins_api')) {
-			require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-		}
-		if (!class_exists('Plugin_Upgrader')) {
-			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-		}
-
-		$plugin_slug = 'wp-consent-api';
-		$api = plugins_api('plugin_information', ['slug' => $plugin_slug]);
-
-		if (is_wp_error($api)) {
-			return;
-		}
-
-		$upgrader = new Plugin_Upgrader(new Automatic_Upgrader_Skin());
-		$upgrader->install($api->download_link);
-	}
-}
 
 add_action('wp_enqueue_scripts', function () {
 	if (function_exists('wp_register_consent_script')) {

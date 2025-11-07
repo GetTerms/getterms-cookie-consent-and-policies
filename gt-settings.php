@@ -59,14 +59,9 @@ switch ($default_language) {
                 /* translators: %s: Plugin name with link to WordPress.org plugin page */
                 printf(esc_html__('The %s plugin is required for full compatibility with Google Consent Mode.', 'getterms-cookie-consent-policies'), '<a href="https://wordpress.org/plugins/wp-consent-api/" target="_blank">WP Consent API</a>'); ?>
             </p>
-            <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline">
-                <?php
-                wp_nonce_field( 'gt_install_consent_api', '_gt_consent_nonce' );
-                ?>
-                <input type="hidden" name="action" value="gt_install_consent_api">
-                <input type="submit" class="button button-primary"
-                       value="Install & Activate WP Consent API">
-            </form>
+            <a class="button button-primary" href="<?php echo esc_url( admin_url( 'plugin-install.php?tab=plugin-information&plugin=wp-consent-api' ) ); ?>" target="_blank" rel="noopener noreferrer">
+                <?php esc_html_e( 'Install WP Consent API', 'getterms-cookie-consent-policies' ); ?>
+            </a>
         </div>
     <?php endif; ?>
     <form method="post" action="options.php" id="getterms-form">
