@@ -142,21 +142,20 @@ We disclose these external connections for transparency and to help you assess c
 
 === Source for Compiled Assets (Required by WordPress.org) ===
 
-This plugin includes the human‑readable, non‑minified source for its compiled JavaScript/CSS. This satisfies the WordPress.org guideline requiring publicly documented sources for generated content.
+The full human‑readable, non‑minified source code for the compiled JavaScript/CSS is publicly available in our GitHub repository. This satisfies the WordPress.org guideline requiring publicly accessible sources for generated assets.
 
-- Compiled files shipped with the plugin
+- Public source repository (first‑party):
+  - https://github.com/GetTerms/getterms-cookie-consent-and-policies
+  - Key sources: `src/getterms.js`, `vite.config.mjs`, `package.json`
+
+- Compiled files shipped with the plugin (in this ZIP):
   - JavaScript bundle: `dist/getterms.bundle.js`
-
-- Corresponding source code included in this plugin
-  - Main source: `src/getterms.js`
-  - Build config: `vite.config.mjs`
-  - Package scripts and dependencies: `package.json`
 
 - Third‑party libraries used in the bundle (public sources):
   - Tippy.js (tooltip library): https://github.com/atomiks/tippyjs
   - Popper Core (positioning engine): https://github.com/popperjs/popper-core
 
-If you prefer reviewing source online, the above third‑party libraries are publicly maintained at the linked URLs. The first‑party source for this plugin is fully included within this plugin package under `src/`.
+Note: The distributed plugin package does not include the `src/` directory. For review or contributions, please use the public repository linked above.
 
 === Build Tools ===
 
@@ -171,12 +170,12 @@ Build config: `vite.config.mjs`
 Build steps to reproduce the distributed assets:
 
 1. Install Node.js (use `.nvmrc` for the recommended version).
-2. From the plugin root directory, run:
+2. Clone the public repository and from the plugin root directory, run:
    - `npm install`
    - `npm run build`
 3. The compiled output will be written to `dist/`.
 
-No private repositories are required to build; all source files needed are included in this plugin package.
+No private repositories are required to build; all source files needed are available in the public repository.
 
 == Changelog ==
 
