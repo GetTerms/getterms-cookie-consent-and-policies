@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 /*
 Plugin Name: GetTerms Cookie Consent & Policies
 Description: Easy installation of your GetTerms Cookie Consent and Policies widget.
-Version: 0.8
+Version: 1.0
 Author: General Labs.
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -12,7 +12,7 @@ Text Domain: getterms-cookie-consent-policies
 Requires Plugins: wp-consent-api
 */
 
-define('GETTERMS_PLUGIN_VERSION', '0.8');
+define('GETTERMS_PLUGIN_VERSION', '1.0');
 
 add_action('admin_menu', 'getterms_menu');
 function getterms_menu()

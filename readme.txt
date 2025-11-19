@@ -3,7 +3,7 @@ Contributors: getterms
 Tags: privacy, terms of service, cookie consent, GDPR, compliance
 Requires at least: 4.7
 Tested up to: 6.8
-Stable tag: 0.8
+Stable tag: 1.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -178,6 +178,9 @@ Build steps to reproduce the distributed assets:
 No private repositories are required to build; all source files needed are available in the public repository.
 
 == Changelog ==
+
+= 1.0 =
+* Functionality updates to comply with WordPress plugin directory requirements
 
 = 0.8 =
 * Integration with WP Consent API.
